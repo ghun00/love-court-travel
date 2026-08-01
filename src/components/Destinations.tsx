@@ -29,10 +29,6 @@ function DestCard({ dest, index }: { dest: Destination; index: number }) {
           </span>
         </div>
       </div>
-      <div className="mt-3 break-keep">
-        <p className="text-[0.95rem]">{dest.caption}</p>
-        <p className="mt-1 text-[0.82rem] text-ink/55">{dest.courts}</p>
-      </div>
     </li>
   );
 }

@@ -36,7 +36,7 @@ export function Story() {
             돌아오는 비행기에서 생각했어요. 이 경험을, 혼자서는 선뜻 떠나기 어려운
             사람들에게 그대로 만들어주고 싶다고.
           </p>
-          <p className="mt-[18px] font-bold text-court-green">— 러브코트 대표 [이름]</p>
+          <p className="mt-[18px] font-bold text-court-green">— 러브코트 대표 한지훈</p>
         </div>
       </div>
     </section>

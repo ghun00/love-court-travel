@@ -25,11 +25,13 @@ export function Hero() {
       />
 
       <div className="relative z-2 max-w-160 px-6">
-        <h1 className="text-balance break-keep text-[clamp(1.9rem,8vw,3.4rem)] font-extrabold leading-tight tracking-[-0.02em]">
-          여행에서 가장 기대되는 장면이, 테니스가 되도록
+        <h1 className="break-keep text-[clamp(1.3rem,calc(8vw_-_3px),3rem)] font-extrabold leading-tight tracking-[-0.02em]">
+          <span className="whitespace-nowrap">여행에서 가장 기대되는 장면이,</span>
+          <br />
+          테니스가 되도록
         </h1>
         <p className="mt-[18px] break-keep text-[clamp(0.95rem,3.6vw,1.1rem)] text-white/92">
-          좋은 코트를 찾아 떠나는 소규모 테니스 트립.
+          여행과 테니스를 합친 소규모 테니스 트립.
           <br />
           러브코트가 첫 번째 여행을 준비하고 있습니다.
         </p>
