@@ -3,8 +3,7 @@ import { useReveal, revealClass } from "../hooks/useReveal";
 
 const BENEFITS = [
   "첫 트립 오픈 소식을 가장 먼저 받아요",
-  "얼리버드 가격으로 신청할 수 있어요",
-  "8자리 선착 안내 전, 우선 안내 대상이 됩니다",
+  "얼리버드 가격으로 가장 먼저 신청할 수 있어요",
 ];
 
 export function Waitlist() {
