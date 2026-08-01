@@ -1,0 +1,818 @@
+/* ============================================================
+   LOVE COURT — 대기명단 랜딩페이지
+   모바일 퍼스트 (390px 기준) → 768px → 1200px
+============================================================ */
+
+:root {
+  --bg: #FAF8F4;
+  --green: #1F4D36;
+  --clay: #FD4A01;
+  /* 브랜드 오렌지 (로고 컬러) */
+  --ink: #111111;
+  --overlay: rgba(0, 0, 0, 0.3);
+  --placeholder: #B8B0A4;
+  /* 웜 그레이 플레이스홀더 */
+  --near-black: #14120F;
+  --radius: 16px;
+  --cta-bar-h: 64px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  /* 모바일: 하단 고정 CTA 바가 콘텐츠를 가리지 않도록 */
+  padding-bottom: var(--cta-bar-h);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+h1,
+h2 {
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+/* ---------- 공통: 배경 사진 + 플레이스홀더 폴백 ---------- */
+
+.bg-media,
+.dest-media,
+.story-media {
+  background: var(--placeholder);
+  overflow: hidden;
+  position: relative;
+}
+
+.bg-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bg-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.bg-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 이미지 로드 실패 → 웜 그레이 + 파일명 라벨, 레이아웃 유지 */
+.img-missing img {
+  display: none;
+}
+
+.img-missing::after {
+  content: "images/" attr(data-file);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.85);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06) 25%, transparent 25%, transparent 50%,
+      rgba(255, 255, 255, 0.06) 50%, rgba(255, 255, 255, 0.06) 75%, transparent 75%) 0 0 / 28px 28px,
+    var(--placeholder);
+}
+
+/* 사진 위 텍스트 가독용 오버레이 (대비 4.5:1 확보) */
+.hero::before,
+.value-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--overlay);
+  z-index: 1;
+}
+
+/* ---------- 0. 고정 요소 ---------- */
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  /* 히어로 위에서 흰 워드마크 가독용 상단 스크림 */
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent);
+  transition: background-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.topbar.scrolled {
+  background-image: none;
+  background-color: var(--bg);
+  box-shadow: 0 1px 0 rgba(17, 17, 17, 0.07);
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+}
+
+.wordmark img {
+  height: 20px;
+  width: auto;
+  display: block;
+}
+
+/* 히어로 위: 화이트 로고 / 스크롤 후 밝은 배경: 오렌지 로고 */
+.topbar .logo-color {
+  display: none;
+}
+
+.topbar.scrolled .logo-white {
+  display: none;
+}
+
+.topbar.scrolled .logo-color {
+  display: block;
+}
+
+.cta-button {
+  display: inline-block;
+  background: var(--green);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 999px;
+  text-align: center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.cta-button:hover {
+  background: #17402B;
+}
+
+.cta-button:focus-visible {
+  outline: 3px solid var(--clay);
+  outline-offset: 3px;
+}
+
+/* 데스크톱 우상단 버튼 — 모바일에서는 숨김 (하단 바가 담당) */
+.cta-top {
+  display: none;
+  padding: 10px 22px;
+  font-size: 0.9rem;
+}
+
+/* 모바일 하단 고정 CTA 바 */
+.cta-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--cta-bar-h);
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+  background: var(--green);
+  display: flex;
+  align-items: stretch;
+}
+
+.cta-bar-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  border-radius: 12px;
+  background: transparent;
+}
+
+.cta-bar-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- 1. 히어로 ---------- */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* 히어로 하단 그라데이션 — 텍스트 대비 보강 */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 0 0;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.25));
+  z-index: 1;
+}
+
+.hero .bg-media img {
+  animation: kenburns 20s ease-in-out infinite alternate;
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  padding: 0 24px;
+  max-width: 640px;
+}
+
+.hero-title {
+  font-size: clamp(1.9rem, 8vw, 3.4rem);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  word-break: keep-all;
+}
+
+.hero-sub {
+  margin-top: 18px;
+  font-size: clamp(0.95rem, 3.6vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.92);
+  word-break: keep-all;
+}
+
+.hero-cta {
+  margin-top: 34px;
+}
+
+.cta-hero {
+  padding: 15px 36px;
+  font-size: 1.05rem;
+}
+
+.cta-hint {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  z-index: 2;
+  width: 1px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.6);
+  animation: hintdrop 2.4s ease-in-out infinite;
+  transform-origin: top;
+}
+
+@keyframes hintdrop {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
+  40% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scaleY(1) translateY(10px);
+    opacity: 0;
+  }
+}
+
+/* ---------- 2. 가치 3패널 ---------- */
+
+.value-panel {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* 패럴랙스 여유분 — translateY 최대 10% 이동에도 빈틈 없도록 */
+.value-panel .bg-media {
+  inset: -10% 0;
+}
+
+.panel-inner {
+  position: relative;
+  z-index: 2;
+  padding: 0 24px 96px;
+  max-width: 640px;
+}
+
+.panel-keyword {
+  font-size: clamp(3rem, 14vw, 6.5rem);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+/* 코트 라인 모티프 — 키워드 아래 클레이 베이스라인 */
+.panel-keyword::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin-top: 18px;
+  background: var(--clay);
+}
+
+.panel-copy {
+  margin-top: 20px;
+  font-size: clamp(1rem, 3.8vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.94);
+  word-break: keep-all;
+}
+
+/* ---------- 3. 후보지 카드 ---------- */
+
+.destinations {
+  padding: 88px 20px;
+}
+
+.section-head {
+  max-width: 640px;
+  margin: 0 auto 44px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 5.6vw, 2.2rem);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+.section-sub {
+  margin-top: 12px;
+  color: rgba(17, 17, 17, 0.65);
+  word-break: keep-all;
+}
+
+.dest-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.dest-card {
+  position: relative;
+  height: 260px;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.dest-media {
+  position: absolute;
+  inset: 0;
+  background: var(--placeholder);
+}
+
+.dest-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 사진 위 하단 그라데이션 — 클립 타이포 가독용 */
+.dest-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.25), transparent);
+}
+
+/* 리퀴드 글래스 필 — 실데이터 라벨 (숫자는 확정 후 교체) */
+.dest-pill {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* 그라데이션 보더 (mask로 링만 남김) */
+.dest-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* 거대 지명 타이포 — 하단 클리핑이 시그니처 */
+.dest-name-clip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  font-size: clamp(88px, 9.5vw, 120px);
+  height: 0.8em;
+  /* 글자 높이의 약 60%만 노출 — 아래쪽이 카드 밖으로 잘림 */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.dest-name {
+  display: block;
+  line-height: 1;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+}
+
+.dest-caption {
+  margin-top: 12px;
+  word-break: keep-all;
+}
+
+.dest-copy {
+  font-size: 0.95rem;
+}
+
+.dest-courts {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: rgba(17, 17, 17, 0.55);
+}
+
+/* 카드 등장 스태거 — .reveal 트랜지션에 지연만 추가 */
+.js .dest-item.reveal:nth-child(2) {
+  transition-delay: 0.12s;
+}
+
+.js .dest-item.reveal:nth-child(3) {
+  transition-delay: 0.24s;
+}
+
+.dest-cta {
+  margin-top: 56px;
+  text-align: center;
+}
+
+.dest-question {
+  font-size: clamp(1.1rem, 4.2vw, 1.35rem);
+  font-weight: 700;
+  word-break: keep-all;
+}
+
+.cta-dest {
+  margin-top: 18px;
+  padding: 14px 32px;
+  font-size: 1rem;
+}
+
+.dest-more {
+  margin-top: 28px;
+}
+
+.dest-more a {
+  color: var(--green);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 2px solid var(--clay);
+  padding-bottom: 3px;
+}
+
+.dest-more a:hover {
+  color: var(--clay);
+}
+
+/* ---------- 4. 대표 스토리 ---------- */
+
+.story {
+  padding: 24px 20px 96px;
+}
+
+.story-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.story-media {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+}
+
+.story-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story-text .section-title {
+  margin-bottom: 24px;
+}
+
+.story-text p+p {
+  margin-top: 18px;
+}
+
+.story-sign {
+  font-weight: 700;
+  color: var(--green);
+}
+
+/* ---------- 5. 대기명단 폼 ---------- */
+
+.waitlist {
+  background: var(--green);
+  color: #fff;
+  padding: 88px 20px 96px;
+}
+
+.waitlist-inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.waitlist-title {
+  font-size: clamp(1.5rem, 5.6vw, 2.2rem);
+  text-align: center;
+  word-break: keep-all;
+}
+
+.benefits {
+  list-style: none;
+  margin: 28px auto 36px;
+  max-width: 420px;
+}
+
+.benefits li {
+  position: relative;
+  padding-left: 30px;
+  word-break: keep-all;
+}
+
+.benefits li+li {
+  margin-top: 10px;
+}
+
+.benefits li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.42em;
+  width: 16px;
+  height: 9px;
+  border-left: 2.5px solid var(--clay);
+  border-bottom: 2.5px solid var(--clay);
+  transform: rotate(-45deg);
+}
+
+.form-card {
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 12px;
+  min-height: 600px;
+}
+
+.form-card iframe {
+  display: block;
+  width: 100%;
+  min-height: 576px;
+  border: 0;
+  border-radius: 8px;
+}
+
+/* TALLY_FORM_URL 미교체 시 안내 */
+.form-card .tally-pending {
+  min-height: 576px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: rgba(17, 17, 17, 0.55);
+  font-size: 0.9rem;
+  padding: 24px;
+  word-break: keep-all;
+}
+
+.form-note {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ---------- 6. 푸터 ---------- */
+
+.footer {
+  background: var(--near-black);
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  padding: 56px 20px;
+}
+
+.footer-logo {
+  height: 22px;
+  width: auto;
+  margin: 0 auto;
+}
+
+.footer-ig {
+  display: inline-flex;
+  margin-top: 20px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.footer-ig:hover {
+  color: var(--clay);
+}
+
+.footer-copy {
+  margin-top: 18px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ---------- 스크롤 페이드인 ---------- */
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.js .reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- 접근성: 모션 최소화 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero .bg-media img {
+    animation: none;
+  }
+
+  .scroll-hint {
+    animation: none;
+    opacity: 0.5;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .value-panel .bg-media {
+    inset: 0;
+    transform: none !important;
+  }
+
+  .cta-button {
+    transition: none;
+  }
+
+  .js .dest-item.reveal {
+    transition-delay: 0s;
+  }
+}
+
+/* ============================================================
+   768px — 태블릿
+============================================================ */
+
+@media (min-width: 768px) {
+  body {
+    padding-bottom: 0;
+  }
+
+  .cta-bar {
+    display: none;
+  }
+
+  .cta-top {
+    display: inline-block;
+  }
+
+  .topbar {
+    padding: 18px 32px;
+  }
+
+  .destinations {
+    padding: 120px 32px;
+  }
+
+  .story {
+    padding: 40px 32px 140px;
+  }
+
+  .story-inner {
+    flex-direction: row;
+    align-items: center;
+    gap: 56px;
+  }
+
+  .story-media {
+    flex: 0 0 42%;
+  }
+
+  .story-text {
+    flex: 1;
+  }
+
+  .waitlist {
+    padding: 120px 32px 130px;
+  }
+
+  .panel-inner {
+    padding: 0 64px 120px;
+  }
+}
+
+/* ============================================================
+   1200px — 데스크톱
+============================================================ */
+
+@media (min-width: 1200px) {
+  .topbar {
+    padding: 22px 48px;
+  }
+
+  .dest-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .dest-card {
+    height: 340px;
+  }
+
+  /* 3열에서는 카드 폭이 좁아지므로 지명 크기를 카드 기준으로 재계산 */
+  .dest-name-clip {
+    font-size: clamp(72px, 8.5vw, 120px);
+  }
+
+  .panel-inner {
+    padding: 0 96px 140px;
+    max-width: 760px;
+  }
+
+  .story-inner {
+    gap: 80px;
+  }
+}

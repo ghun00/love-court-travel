@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* ============================================================
+   LOVE COURT — 디자인 토큰
+   모바일 퍼스트 (390px 기준) → 768px(md) → 1200px(xl)
+============================================================ */
+@theme {
+  --breakpoint-xl: 1200px;
+
+  --color-court-bg: #faf8f4;
+  --color-court-green: #1f4d36;
+  --color-court-green-dark: #17402b;
+  --color-clay: #fd4a01;
+  --color-ink: #111111;
+  --color-placeholder: #b8b0a4;
+  --color-near-black: #14120f;
+
+  --radius-card: 16px;
+  --spacing-cta-bar: 64px;
+
+  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+    sans-serif;
+
+  --animate-kenburns: kenburns 20s ease-in-out infinite alternate;
+  --animate-hintdrop: hintdrop 2.4s ease-in-out infinite;
+
+  @keyframes kenburns {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.08);
+    }
+  }
+
+  @keyframes hintdrop {
+    0% {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+    40% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scaleY(1) translateY(10px);
+      opacity: 0;
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-court-bg);
+  color: var(--color-ink);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- 이미지 로드 실패 폴백: 웜 그레이 + 파일명 라벨 ---------- */
+.img-missing img {
+  display: none;
+}
+
+.img-missing::after {
+  content: "images/" attr(data-file);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.85);
+  background:
+    linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.06) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.06) 50%,
+        rgba(255, 255, 255, 0.06) 75%,
+        transparent 75%
+      )
+      0 0 / 28px 28px,
+    var(--color-placeholder);
+}
+
+/* ---------- 후보지 필: 그라데이션 보더 (mask로 링만 남김) ---------- */
+.dest-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.08)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ---------- 대기명단 혜택 체크마크 ---------- */
+.benefit-check::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.42em;
+  width: 16px;
+  height: 9px;
+  border-left: 2.5px solid var(--color-clay);
+  border-bottom: 2.5px solid var(--color-clay);
+  transform: rotate(-45deg);
+}

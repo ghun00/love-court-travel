@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이 코트에서 칠 8명을 찾습니다 — 러브코트</title>
+  <meta name="description" content="좋은 코트를 찾아 떠나는 소규모 테니스 트립">
+
+  <!-- OG -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="이 코트에서 칠 8명을 찾습니다 — 러브코트">
+  <meta property="og:description" content="좋은 코트를 찾아 떠나는 소규모 테니스 트립">
+  <meta property="og:image" content="images/hero.webp">
+  <meta property="og:locale" content="ko_KR">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- ============================================================
+       GA4 스니펫 슬롯 — 측정 ID(G-XXXXXXXXXX)를 받으면 아래 주석을
+       해제하고 두 곳의 G-XXXXXXXXXX 를 교체하세요.
+  ==============================================================
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  ============================================================ -->
+</head>
+
+<body>
+
+  <!-- 0. 고정 상단 워드마크 바 -->
+  <header class="topbar" id="topbar">
+    <a class="wordmark" href="#top">
+      <img class="logo-white" src="public/logo_lovecourt_white.png" alt="러브코트">
+      <img class="logo-color" src="public/logo_lovecourt_mainOrange.png" alt="" aria-hidden="true">
+    </a>
+    <a class="cta-button cta-top" href="#waitlist">대기명단 등록하기</a>
+  </header>
+
+  <main id="top">
+
+    <!-- 1. 히어로 -->
+    <section class="hero" aria-label="러브코트 소개">
+      <figure class="bg-media" data-file="hero.webp">
+        <picture>
+          <!-- 모바일 전용 세로 구도 -->
+          <source media="(max-width: 767px)" srcset="images/hero-mo.webp">
+          <source srcset="images/hero-800.webp 800w, images/hero-1400.webp 1400w, images/hero-2000.webp 2000w"
+            sizes="100vw">
+          <img src="images/hero.webp" alt="해외 테니스 코트의 전경" fetchpriority="high"
+            onerror="this.closest('.bg-media').classList.add('img-missing')">
+        </picture>
+      </figure>
+      <div class="hero-inner">
+        <h1 class="hero-title">여행에서 가장 기대되는 장면이, 테니스가 되도록</h1>
+        <p class="hero-sub">좋은 코트를 찾아 떠나는 소규모 테니스 트립.<br>러브코트가 첫 번째 여행을 준비하고 있습니다.</p>
+        <div class="hero-cta">
+          <a class="cta-button cta-hero" href="#waitlist">대기명단 등록하기</a>
+          <p class="cta-hint">1분이면 끝나요</p>
+        </div>
+      </div>
+      <div class="scroll-hint" aria-hidden="true"></div>
+    </section>
+
+    <!-- 2. 가치 3패널 -->
+    <section class="values" aria-label="러브코트의 세 가지 가치">
+
+      <article class="value-panel" aria-label="MOVE">
+        <figure class="bg-media" data-file="move.webp">
+          <picture>
+            <source media="(max-width: 767px)" srcset="images/move-mo.webp">
+            <img src="images/move.webp" alt="테니스 코트 전경과 랠리 장면" loading="lazy"
+              onerror="this.closest('.bg-media').classList.add('img-missing')">
+          </picture>
+        </figure>
+        <div class="panel-inner reveal">
+          <h2 class="panel-keyword">MOVE</h2>
+          <p class="panel-copy">코트 예약, 이동, 준비물 걱정 없이. 라켓과 여행할 마음만 챙기세요.</p>
+        </div>
+      </article>
+
+      <article class="value-panel" aria-label="CONNECT">
+        <figure class="bg-media" data-file="connect.webp">
+          <picture>
+            <source media="(max-width: 767px)" srcset="images/connect-mo.webp">
+            <img src="images/connect.webp" alt="코트에서 복식 경기를 하며 함께 어울리는 사람들" loading="lazy"
+              onerror="this.closest('.bg-media').classList.add('img-missing')">
+          </picture>
+        </figure>
+        <div class="panel-inner reveal">
+          <h2 class="panel-keyword">CONNECT</h2>
+          <p class="panel-copy">함께 칠 사람을 찾아다닐 필요 없어요. 비슷한 취향의 사람들이 코트에서 만납니다. 혼자 와도 괜찮은 게 아니라, 혼자 오라고 만든 여행이에요.</p>
+        </div>
+      </article>
+
+      <article class="value-panel" aria-label="REMEMBER">
+        <figure class="bg-media" data-file="remember.webp">
+          <picture>
+            <source media="(max-width: 767px)" srcset="images/remember-mo.webp">
+            <img src="images/remember.webp" alt="코트 위에서 촬영한 스냅 느낌의 인물 사진" loading="lazy"
+              onerror="this.closest('.bg-media').classList.add('img-missing')">
+          </picture>
+        </figure>
+        <div class="panel-inner reveal">
+          <h2 class="panel-keyword">REMEMBER</h2>
+          <p class="panel-copy">그 코트에서 테니스 치는 당신의 모습, 전문 스냅으로 남겨드립니다. 여행이 끝나도 그 장면은 남습니다.</p>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- 3. 후보지 카드 -->
+    <section class="destinations" aria-label="다음 여행의 후보지들">
+      <div class="section-head reveal">
+        <h2 class="section-title">다음 여행의 후보지들</h2>
+        <p class="section-sub">러브코트가 눈여겨보고 있는 코트들. 첫 번째 목적지는 여러분의 답으로 정해집니다.</p>
+      </div>
+
+      <ul class="dest-grid">
+        <li class="dest-item reveal">
+          <div class="dest-card">
+            <figure class="dest-media" data-file="journal-japan.webp">
+              <img src="images/journal-japan.webp" alt="일본의 테니스 코트" loading="lazy"
+                onerror="this.closest('.dest-media').classList.add('img-missing')">
+            </figure>
+            <!-- 실제 숫자 확정 전 플레이스홀더 — 임의 수치 기입 금지 -->
+            <span class="dest-pill">후보 코트 3곳</span>
+            <div class="dest-name-clip"><span class="dest-name">JAPAN</span></div>
+          </div>
+          <div class="dest-caption">
+            <p class="dest-copy">캡션 입력</p>
+            <p class="dest-courts">후보 코트 입력</p>
+          </div>
+        </li>
+
+        <li class="dest-item reveal">
+          <div class="dest-card">
+            <figure class="dest-media" data-file="journal-bali.webp">
+              <img src="images/journal-bali.webp" alt="발리의 테니스 코트" loading="lazy"
+                onerror="this.closest('.dest-media').classList.add('img-missing')">
+            </figure>
+            <span class="dest-pill">후보 코트 3곳</span>
+            <div class="dest-name-clip"><span class="dest-name">BALI</span></div>
+          </div>
+          <div class="dest-caption">
+            <p class="dest-copy">캡션 입력</p>
+            <p class="dest-courts">후보 코트 입력</p>
+          </div>
+        </li>
+
+        <li class="dest-item reveal">
+          <div class="dest-card">
+            <figure class="dest-media" data-file="journal-vietnam.webp">
+              <img src="images/journal-vietnam.webp" alt="베트남의 테니스 코트" loading="lazy"
+                onerror="this.closest('.dest-media').classList.add('img-missing')">
+            </figure>
+            <span class="dest-pill">후보 코트 3곳</span>
+            <div class="dest-name-clip"><span class="dest-name">VIETNAM</span></div>
+          </div>
+          <div class="dest-caption">
+            <p class="dest-copy">캡션 입력</p>
+            <p class="dest-courts">후보 코트 입력</p>
+          </div>
+        </li>
+      </ul>
+
+      <div class="dest-cta reveal">
+        <p class="dest-question">어디로 먼저 가고 싶으세요?</p>
+        <a class="cta-button cta-dest" href="#waitlist">대기명단에서 알려주세요</a>
+        <p class="dest-more">
+          <a href="https://www.instagram.com/love_court.kr/" target="_blank" rel="noopener">더 많은 코트 보기 →</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- 4. 대표 스토리 -->
+    <section class="story" aria-label="대표 스토리">
+      <div class="story-inner">
+        <figure class="story-media reveal" data-file="founder.webp">
+          <img src="images/founder.webp" alt="코트 위에 서 있는 러브코트 대표" loading="lazy"
+            onerror="this.closest('.story-media').classList.add('img-missing')">
+        </figure>
+        <div class="story-text reveal">
+          <h2 class="section-title">왜 이 여행을 만들었나요?</h2>
+          <p>저는 극 내향인입니다. 퇴사 후 처음으로 혼자 발리에 3주를 다녀왔어요.</p>
+          <p>혼자 간 여행이었는데, 가장 기억에 남는 건 처음 본 사람들과 라켓을 잡았던 순간이었습니다. 말로는 어색했는데, 공을 주고받으니 금세 가까워졌어요. 운동을 같이 하면 사람은 빨리 친해진다는
+            걸, 저 같은 내향인이 직접 겪었습니다.</p>
+          <p>돌아오는 비행기에서 생각했어요. 이 경험을, 혼자서는 선뜻 떠나기 어려운 사람들에게 그대로 만들어주고 싶다고.</p>
+          <p class="story-sign">— 러브코트 대표 [이름]</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 대기명단 폼 -->
+    <section class="waitlist" id="waitlist" aria-label="대기명단 등록">
+      <div class="waitlist-inner">
+        <h2 class="waitlist-title reveal">첫 번째 트립, 가장 먼저 만나세요</h2>
+        <ul class="benefits reveal">
+          <li>첫 트립 오픈 소식을 가장 먼저 받아요</li>
+          <li>얼리버드 가격으로 신청할 수 있어요</li>
+          <li>8자리 선착 안내 전, 우선 안내 대상이 됩니다</li>
+        </ul>
+        <div class="form-card reveal" id="tally-card">
+          <!-- Tally iframe은 script.js가 주입합니다. URL 교체는 script.js 최상단 TALLY_FORM_URL 한 곳만. -->
+        </div>
+        <p class="form-note reveal">수집된 정보는 트립 안내 목적으로만 사용됩니다.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 6. 푸터 -->
+  <footer class="footer">
+    <img class="footer-logo" src="public/logo_lovecourt_white.png" alt="러브코트">
+    <a class="footer-ig" href="https://www.instagram.com/love_court.kr/" target="_blank" rel="noopener"
+      aria-label="러브코트 인스타그램">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+        aria-hidden="true">
+        <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+        <circle cx="12" cy="12" r="4.5" />
+        <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+      </svg>
+    </a>
+    <p class="footer-copy">© 2026 LOVE COURT. All rights reserved.</p>
+  </footer>
+
+  <!-- 모바일 하단 고정 CTA 바 -->
+  <div class="cta-bar">
+    <a class="cta-button cta-bar-button" href="#waitlist">대기명단 등록하기 →</a>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+
+</html>
