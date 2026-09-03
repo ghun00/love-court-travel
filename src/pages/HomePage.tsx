@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx 전체 교체
 import { Link } from "react-router-dom";
 import { TRIPS, getOpenTrip } from "../data/trips";
 import { WfImg, WfBadge, WfNote } from "../components/wf/Wf";

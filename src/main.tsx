@@ -18,6 +18,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="trips/:id" element={<TripDetailPage />} />
           <Route path="trips/:id/book" element={<BookingPage />} />
         </Route>
+        <Route path="*" element={<App />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
