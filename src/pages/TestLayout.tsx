@@ -1,8 +1,10 @@
 import { Link, Outlet } from "react-router-dom";
+import { getOpenTrip } from "../data/trips";
 
 /** Phase 1 와이어프레임 공용 레이아웃 — 회색 골격. Phase 2에서 실제 Topbar/Footer로 교체 */
 export function TestLayout() {
-  const ctaTo = "/test"; // Task 6에서 확정 트립 상세 경로로 교체
+  const open = getOpenTrip();
+  const ctaTo = open ? `/test/trips/${open.id}` : "/test";
   return (
     <div className="min-h-screen bg-white pb-16 font-sans text-neutral-900 md:pb-0">
       <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-neutral-300 bg-white px-5 py-3">
