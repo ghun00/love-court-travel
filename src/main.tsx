@@ -5,6 +5,7 @@ import App from "./App";
 import { TestLayout } from "./pages/TestLayout";
 import { HomePage } from "./pages/HomePage";
 import { TripDetailPage } from "./pages/TripDetailPage";
+import { BookingPage } from "./pages/BookingPage";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/test" element={<TestLayout />}>
           <Route index element={<HomePage />} />
           <Route path="trips/:id" element={<TripDetailPage />} />
+          <Route path="trips/:id/book" element={<BookingPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
