@@ -1,0 +1,276 @@
+/* /test-page1 — 클투 스토어프런트 구조 위 test-home3 스킨. 새 요소만 정의. */
+
+/* ---------- 히어로: 스트립이 하단에 걸치도록 여백 확보 ---------- */
+.p1-hero {
+  min-height: 88svh;
+}
+/* 배경 블러: Traw 스킨 14px → 4px로 완화 (코트·호텔이 읽히도록) */
+.th--p1 .th-hero__bg {
+  filter: blur(4px) saturate(1.05);
+}
+.p1-hero__body {
+  padding-top: 128px;
+  padding-bottom: 140px;
+}
+
+/* ---------- 앵커 섹션: 고정 네비 높이만큼 보정 ---------- */
+#trips,
+#faq {
+  scroll-margin-top: 72px;
+}
+
+/* ---------- 네비: 텍스트 메뉴 + 오렌지 로그인 ---------- */
+.p1-nav {
+  align-items: center;
+  gap: 44px;
+}
+.p1-nav__link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.62);
+  transition: color 0.2s ease;
+}
+.p1-nav__link:hover {
+  color: #fff;
+}
+.p1-nav__link--active {
+  font-weight: 700;
+  color: #fff;
+}
+.th-navbar--scrolled .p1-nav__link {
+  color: #a8abb3;
+}
+.th-navbar--scrolled .p1-nav__link:hover {
+  color: var(--th-ink);
+}
+.th-navbar--scrolled .p1-nav__link--active {
+  color: var(--th-ink);
+}
+.th-navbar--top .p1-login,
+.th-navbar--scrolled .p1-login {
+  color: #fff;
+  background: #fd4a01;
+  border: 1px solid #fd4a01;
+}
+.th-navbar--top .p1-login:hover,
+.th-navbar--scrolled .p1-login:hover {
+  background: #e64200;
+}
+.th--p1 .th-navbar--scrolled {
+  background: #fff;
+}
+
+/* ---------- 가치 스트립: 히어로 하단선에 반쯤 걸친 흰 카드 ---------- */
+.p1-strip {
+  position: relative;
+  z-index: 2;
+  margin-top: -72px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #fff;
+  border-radius: var(--th-radius);
+  box-shadow: 0 24px 60px rgba(23, 24, 26, 0.14);
+}
+.p1-strip__cell {
+  padding: 26px 24px;
+  border-left: 1px solid var(--th-line);
+}
+.p1-strip__cell:first-child {
+  border-left: 0;
+}
+.p1-strip__k {
+  font-family: "Fraunces", "Times New Roman", serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--th-muted);
+}
+.p1-strip__t {
+  margin-top: 8px;
+  font-size: 1.12rem;
+  line-height: 1.3;
+}
+.p1-strip__d {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--th-muted);
+}
+@media (max-width: 899px) {
+  .p1-strip {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: -48px;
+  }
+  .p1-strip__cell {
+    padding: 20px 18px;
+  }
+  .p1-strip__cell:nth-child(3) {
+    border-left: 0;
+  }
+  .p1-strip__cell:nth-child(n + 3) {
+    border-top: 1px solid var(--th-line);
+  }
+}
+
+/* ---------- 행 헤더: 제목 좌측, 더보기 우측 (클투) ---------- */
+.p1-row-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+.p1-row-head__title {
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.22;
+}
+.p1-row-head__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+  padding-bottom: 4px;
+  font-size: 0.82rem;
+  color: var(--th-muted);
+}
+.p1-row-head__more svg {
+  width: 14px;
+  height: 14px;
+}
+.p1-row-head__more:hover {
+  color: var(--th-ink);
+}
+
+/* ---------- 트립 카드 3열 ---------- */
+.p1-cards {
+  display: grid;
+  gap: 20px;
+  list-style: none;
+  margin: 44px 0 0;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .p1-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+.p1-card {
+  display: block;
+  color: inherit;
+}
+.p1-card__photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--th-radius);
+  overflow: hidden;
+  background: #cfd6d9;
+  box-shadow: 0 18px 44px rgba(23, 24, 26, 0.12);
+}
+.p1-card__photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.p1-card--open:hover .p1-card__photo img {
+  transform: scale(1.04);
+}
+.p1-card__photo.is-coming img {
+  filter: saturate(0.15) brightness(0.92);
+}
+.p1-card__photo.is-coming::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(247, 246, 242, 0.28);
+}
+.p1-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.p1-badge--open {
+  background: var(--th-lime);
+  color: var(--th-ink);
+}
+.p1-badge--coming {
+  background: rgba(23, 24, 26, 0.55);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* ---------- FAQ ---------- */
+.p1-faq {
+  max-width: 720px;
+  margin-inline: auto;
+}
+.p1-faq__item {
+  border-top: 1px solid var(--th-line);
+}
+.p1-faq__item:last-child {
+  border-bottom: 1px solid var(--th-line);
+}
+.p1-faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+}
+.p1-faq__item summary::-webkit-details-marker {
+  display: none;
+}
+.p1-faq__item summary svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--th-muted);
+  transition: transform 0.25s ease;
+}
+.p1-faq__item[open] summary svg {
+  transform: rotate(180deg);
+}
+.p1-faq__item summary:focus-visible {
+  outline: 2px solid var(--th-ink);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.p1-faq__item p {
+  padding: 0 4px 20px;
+  max-width: 62ch;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--th-muted);
+}
+
+/* ---------- 푸터 사업자 정보 ---------- */
+.p1-biz {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 40px;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  border-top: 1px solid var(--th-line);
+  font-size: 0.66rem;
+  color: var(--th-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p1-card__photo img,
+  .p1-faq__item summary svg {
+    transition: none;
+  }
+}
