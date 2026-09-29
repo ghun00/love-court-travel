@@ -1,6 +1,6 @@
 /* /test-page1 — 클투 스토어프런트 구조 위 test-home3 스킨. 새 요소만 정의. */
 
-/* ---------- 히어로: 스트립이 하단에 걸치도록 여백 확보 ---------- */
+/* ---------- 히어로 ---------- */
 .p1-hero {
   min-height: 88svh;
 }
@@ -10,7 +10,7 @@
 }
 .p1-hero__body {
   padding-top: 128px;
-  padding-bottom: 140px;
+  padding-bottom: 96px;
 }
 
 /* ---------- 앵커 섹션: 고정 네비 높이만큼 보정 ---------- */
@@ -60,54 +60,64 @@
   background: #fff;
 }
 
-/* ---------- 가치 스트립: 히어로 하단선에 반쯤 걸친 흰 카드 ---------- */
-.p1-strip {
-  position: relative;
-  z-index: 2;
-  margin-top: -72px;
+/* ---------- 가치 섹션: 히어로 바로 아래, 아이콘 + 제목 + 한 문장 4칸 ---------- */
+.p1-values {
+  padding: 88px 0;
+  background: #fff;
+}
+.p1-values__title {
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.22;
+  text-align: center;
+}
+.p1-values__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: #fff;
-  border-radius: var(--th-radius);
-  box-shadow: 0 24px 60px rgba(23, 24, 26, 0.14);
+  gap: 40px 32px;
+  margin-top: 56px;
 }
-.p1-strip__cell {
-  padding: 26px 24px;
-  border-left: 1px solid var(--th-line);
+.p1-values__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
-.p1-strip__cell:first-child {
-  border-left: 0;
+.p1-values__icon {
+  display: inline-flex;
+  color: #fd4a01;
 }
-.p1-strip__k {
+.p1-values__k {
+  margin-top: 18px;
   font-family: "Fraunces", "Times New Roman", serif;
   font-style: italic;
   font-size: 0.85rem;
   color: var(--th-muted);
 }
-.p1-strip__t {
-  margin-top: 8px;
+.p1-values__t {
+  margin-top: 6px;
   font-size: 1.12rem;
   line-height: 1.3;
 }
-.p1-strip__d {
-  margin-top: 6px;
-  font-size: 0.8rem;
-  line-height: 1.5;
+.p1-values__d {
+  margin-top: 10px;
+  max-width: 17rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
   color: var(--th-muted);
+  word-break: keep-all;
 }
 @media (max-width: 899px) {
-  .p1-strip {
+  .p1-values {
+    padding: 64px 0;
+  }
+  .p1-values__grid {
     grid-template-columns: repeat(2, 1fr);
-    margin-top: -48px;
+    margin-top: 40px;
   }
-  .p1-strip__cell {
-    padding: 20px 18px;
-  }
-  .p1-strip__cell:nth-child(3) {
-    border-left: 0;
-  }
-  .p1-strip__cell:nth-child(n + 3) {
-    border-top: 1px solid var(--th-line);
+}
+@media (max-width: 479px) {
+  .p1-values__grid {
+    grid-template-columns: 1fr;
   }
 }
 

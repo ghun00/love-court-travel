@@ -6,7 +6,7 @@ import "../styles/test-page1.css";
 
 /**
  * /test-page1 — 클투(cltoo.com) 스토어프런트 구조 + /test-home3 스킨
- * - 히어로(test-home3 카피 유지 + NOW OPEN 배너) → 가치 스트립(히어로 하단에 걸침)
+ * - 히어로(test-home3 카피 유지 + NOW OPEN 배너) → 가치 섹션(히어로 바로 아래)
  *   → 모집 중인 트립 3카드 → FAQ → 푸터
  * - Nav / Hero 배경 / Footer는 TestHome3에서 복사 (세 테스트 페이지 모두 비교용 시안)
  */
@@ -78,7 +78,7 @@ export function TestPage1() {
   return (
     <div className="th th--v3 th--p1">
       <Hero />
-      <ValueStrip />
+      <Values />
       <Trips />
       <Faq />
       <Footer />
@@ -159,40 +159,102 @@ function Hero() {
 }
 
 /* ---------------------------------------------------------------- */
-/* 2. 가치 스트립 — 히어로 하단선에 반쯤 걸친 흰 카드 1장, 4칸           */
+/* 2. 가치 섹션 — 히어로 바로 아래 독립 섹션, 아이콘 + 제목 + 한 문장 4칸 */
 /* ---------------------------------------------------------------- */
-function ValueStrip() {
-  const values = [
+const ICON_PROPS = {
+  width: 44,
+  height: 44,
+  viewBox: "0 0 48 48",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.6,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+};
+
+const VALUE_ICONS = {
+  // 위에서 본 테니스 코트
+  court: (
+    <svg {...ICON_PROPS}>
+      <rect x="8" y="6" width="32" height="36" rx="1.5" />
+      <path d="M13 6v36M35 6v36M8 24h32M13 15h22M13 33h22M24 15v18" />
+    </svg>
+  ),
+  // 전용 차량
+  move: (
+    <svg {...ICON_PROPS}>
+      <path d="M6 32V16a3 3 0 0 1 3-3h22l8 8h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2M6 32a2 2 0 0 0 2 2h3M19 34h10" />
+      <path d="M6 21h33M18 13v8M29 13v8" />
+      <circle cx="15" cy="34" r="3.5" />
+      <circle cx="33" cy="34" r="3.5" />
+    </svg>
+  ),
+  // 한 기수로 모이는 사람들
+  connect: (
+    <svg {...ICON_PROPS}>
+      <circle cx="24" cy="16" r="5" />
+      <path d="M15 38v-3a9 9 0 0 1 18 0v3" />
+      <circle cx="11" cy="20" r="3.5" />
+      <path d="M4 36v-2a7 7 0 0 1 9-6.7" />
+      <circle cx="37" cy="20" r="3.5" />
+      <path d="M44 36v-2a7 7 0 0 0-9-6.7" />
+    </svg>
+  ),
+  // 스냅 카메라
+  remember: (
+    <svg {...ICON_PROPS}>
+      <path d="M6 17a3 3 0 0 1 3-3h6l3-4h12l3 4h6a3 3 0 0 1 3 3v18a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3z" />
+      <circle cx="24" cy="25" r="7" />
+      <path d="M36 19h1" />
+    </svg>
+  ),
+};
+
+function Values() {
+  const values: { k: keyof typeof VALUE_ICONS; label: string; t: string; d: string }[] = [
     {
-      k: "Court",
+      k: "court",
+      label: "Court",
       t: "좋은 코트, 확정된 시간",
-      d: "모든 트립은 코트 전용 대관을 확정한 뒤에만 모집을 열어요. 현지에 도착해 빈 코트를 찾거나 순서를 기다릴 일 없이, 일정표에 적힌 시간에 바로 라켓을 꺼내면 돼요. 경기는 호스트가 로테이션 방식으로 진행해서, 처음 만난 사람과도 자연스럽게 파트너가 돼요.",
+      d: "코트 전용 대관이 확정된 트립만 모집해요. 도착하면 라켓만 꺼내세요.",
     },
     {
-      k: "Move",
+      k: "move",
+      label: "Move",
       t: "귀찮은 건 전부 러브코트가",
-      d: "공항 집결부터 전용 차량, 숙소, 식사 예약까지 모두 준비되어 있어요. 여행업 등록 업체로서 모든 예약을 직접 관리하고, 호스트가 출발부터 귀국까지 전 일정을 함께해요. 낯선 곳에서 길을 묻고 메뉴를 고민하는 대신, 테니스와 사람에게만 집중하세요.",
+      d: "공항 집결부터 차량, 숙소, 식사까지 모두 준비할게요. 여러분은 라켓만 들고 오세요.",
     },
     {
-      k: "Connect",
+      k: "connect",
+      label: "Connect",
       t: "혼자 와도 괜찮은 여행",
-      d: "동행을 구하지 않아도 돼요. 함께할 사람들은 러브코트가 직접 모아요. 트립마다 실력 조건을 미리 공개하고, 그 조건에 맞는 분들이 신청해 6~8명의 한 기수가 돼요. 대부분 혼자 오는 분들이라 모두가 같은 출발선에 서 있고, 첫 만남이 어색하지 않도록 호스트가 처음부터 자리와 대화를 이어드려요.",
+      d: "실력 및 조건이 맞는 분들과 함께 여행을 떠나요. 혼자 와서 함께가 될 수 있어요.",
     },
     {
-      k: "Remember",
+      k: "remember",
+      label: "Remember",
       t: "그 장면 속의 나를 남겨요",
-      d: "전문 스냅 작가가 전 일정을 함께해요. 코트 위의 랠리부터 저녁 식탁의 웃음까지, 혼자 여행하면 남기기 어려운 “내가 나온 사진”을 남겨드려요.",
+      d: "전문 스포츠 스냅 작가가 동행해요. 여러분의 ‘테생샷’을 책임질게요.",
     },
   ];
   return (
-    <section className="th-container p1-strip" aria-label="러브코트 트립의 네 가지">
-      {values.map((v) => (
-        <div className="p1-strip__cell" key={v.k}>
-          <span className="p1-strip__k">{v.k}</span>
-          <h3 className="th-serif p1-strip__t">{v.t}</h3>
-          <p className="p1-strip__d">{v.d}</p>
+    <section className="p1-values" aria-labelledby="p1-values-title">
+      <div className="th-container">
+        <h2 id="p1-values-title" className="th-serif p1-values__title">
+          왜 러브코트 트립인가요?
+        </h2>
+        <div className="p1-values__grid">
+          {values.map((v) => (
+            <div className="p1-values__item" key={v.k}>
+              <span className="p1-values__icon">{VALUE_ICONS[v.k]}</span>
+              <span className="p1-values__k">{v.label}</span>
+              <h3 className="th-serif p1-values__t">{v.t}</h3>
+              <p className="p1-values__d">{v.d}</p>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </section>
   );
 }
