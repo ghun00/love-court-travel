@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { getTrip } from "../data/trips";
 import { WfNote } from "../components/wf/Wf";
 
@@ -10,6 +10,11 @@ export function BookingPage() {
   const trip = id ? getTrip(id) : undefined;
   const [step, setStep] = useState<Step>(1);
   const [agreed, setAgreed] = useState(false);
+  // 상세 페이지(/test-page1/trips/:id)에서 선택한 객실 — rooms가 있는 트립만
+  const [params] = useSearchParams();
+  const room = trip?.rooms?.find((r) => r.id === params.get("room")) ?? trip?.rooms?.[0];
+  const deposit = trip?.depositAmount ?? 0;
+  const won = (n: number) => `${n.toLocaleString("ko-KR")}원`;
 
   if (!trip || trip.status !== "open") {
     return (
@@ -93,14 +98,33 @@ export function BookingPage() {
               {trip.destination} · {trip.duration} · {trip.dates}
             </p>
             <hr className="my-2 border-neutral-200" />
-            <p className="flex justify-between">
-              <span>계약금</span>
-              <span className="font-bold">{trip.deposit}</span>
-            </p>
-            <p className="flex justify-between text-neutral-500">
-              <span>총액 (잔금은 일정 확정 후)</span>
-              <span>{trip.totalPrice}</span>
-            </p>
+            {room ? (
+              <>
+                <p className="flex justify-between">
+                  <span>객실</span>
+                  <span>{room.label} · {won(room.price)}</span>
+                </p>
+                <p className="flex justify-between">
+                  <span>예약금 (지금 결제)</span>
+                  <span className="font-bold">{won(deposit)}</span>
+                </p>
+                <p className="flex justify-between text-neutral-500">
+                  <span>잔금 (출발 전 납부)</span>
+                  <span>{won(room.price - deposit)}</span>
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="flex justify-between">
+                  <span>계약금</span>
+                  <span className="font-bold">{trip.deposit}</span>
+                </p>
+                <p className="flex justify-between text-neutral-500">
+                  <span>총액 (잔금은 일정 확정 후)</span>
+                  <span>{trip.totalPrice}</span>
+                </p>
+              </>
+            )}
           </div>
           <label className="block text-sm">
             <input

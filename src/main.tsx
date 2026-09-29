@@ -10,6 +10,7 @@ import { TestHome } from "./pages/TestHome";
 import { TestHome2 } from "./pages/TestHome2";
 import { TestHome3 } from "./pages/TestHome3";
 import { TestPage1 } from "./pages/TestPage1";
+import { TestTripDetail } from "./pages/TestTripDetail";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
@@ -26,6 +27,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/test-home2" element={<TestHome2 />} />
         <Route path="/test-home3" element={<TestHome3 />} />
         <Route path="/test-page1" element={<TestPage1 />} />
+        <Route path="/test-page1/trips/:id" element={<TestTripDetail />} />
         <Route path="*" element={<App />} />
       </Routes>
     </BrowserRouter>

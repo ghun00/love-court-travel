@@ -6,6 +6,15 @@ export interface TripDay {
   detail: string;
 }
 
+export interface TripRoom {
+  id: "twin" | "single";
+  label: string;
+  /** 1인 기준 결제 금액 (원) */
+  price: number;
+  /** 정가 — 할인 중일 때 취소선 표기 */
+  listPrice?: number;
+}
+
 export interface Trip {
   id: string;
   status: TripStatus;
@@ -30,6 +39,10 @@ export interface Trip {
   included: string[];
   excluded: string[];
   refundPolicy: string[];
+  /** 객실 옵션 — 있으면 상세·신청 페이지가 금액을 숫자로 계산 */
+  rooms?: TripRoom[];
+  /** 계약금 (원) — rooms와 함께 잔금 계산에 사용 */
+  depositAmount?: number;
 }
 
 export const TRIPS: Trip[] = [
@@ -64,6 +77,30 @@ export const TRIPS: Trip[] = [
     refundPolicy: [
       "[환불 규정 — 대표 확정 전 게시 불가, 결제 오픈 전 필수]",
     ],
+  },
+  {
+    id: "hakone",
+    status: "open",
+    name: "하코네 테니스 트립 1기",
+    destination: "일본 하코네",
+    duration: "2박 3일",
+    dates: "2026.10.17 – 19",
+    capacity: 8,
+    spotsLeft: 5,
+    deposit: "30만 원",
+    totalPrice: "149만 원부터 (항공권 제외)",
+    heroImage: "hero-hakone.png",
+    summary:
+      "외륜산 뷰 옥외 코트 3면 통대관, 온천 료칸 2박, 전 일정 스냅 작가 동행. 혼자 오라고 만든 6~8명의 테니스 여행.",
+    days: [],
+    included: [],
+    excluded: ["항공권", "개인 경비"],
+    refundPolicy: ["[환불 규정 — 대표 확정 전 게시 불가, 결제 오픈 전 필수]"],
+    rooms: [
+      { id: "twin", label: "2인 1실", price: 1_490_000, listPrice: 1_690_000 },
+      { id: "single", label: "1인 1실", price: 1_790_000 },
+    ],
+    depositAmount: 300_000,
   },
   {
     id: "japan",

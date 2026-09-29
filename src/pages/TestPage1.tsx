@@ -26,8 +26,6 @@ function scrollToAnchor(e: MouseEvent<HTMLAnchorElement>) {
   el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-/* TODO: 데이터 레이어(src/data/trips.ts)의 open 트립이 아직 "bali"라
-   하코네 카드가 발리 상세로 연결됩니다. bali → hakone 교체 후 to 값을 맞춰주세요. */
 type TripCard = {
   id: string;
   status: "open" | "coming";
@@ -50,7 +48,7 @@ const TRIP_CARDS: TripCard[] = [
     price: "얼리버드 149만 원",
     priceNote: "정가 169만 원, 항공권 별도",
     img: "/images/poster-hakone.png",
-    to: "/test/trips/bali",
+    to: "/test-page1/trips/hakone",
   },
   {
     id: "bali",
@@ -71,6 +69,12 @@ const TRIP_CARDS: TripCard[] = [
 ];
 
 export function TestPage1() {
+  // 상세 페이지 네비에서 /test-page1#trips 로 들어온 경우 해당 섹션으로 이동
+  useEffect(() => {
+    const id = window.location.hash.slice(1);
+    if (id) document.getElementById(id)?.scrollIntoView({ block: "start" });
+  }, []);
+
   return (
     <div className="th th--v3 th--p1">
       <Hero />
@@ -85,13 +89,17 @@ export function TestPage1() {
 /* ---------------------------------------------------------------- */
 /* 1. 네비 + 히어로 (+ NOW OPEN 배너)                                  */
 /* ---------------------------------------------------------------- */
-function Nav() {
+/** solid: 히어로가 없는 페이지(트립 상세 등)에서 처음부터 흰 배경으로 고정 */
+export function Nav({ solid = false }: { solid?: boolean }) {
+  // 상세 페이지에서는 앵커가 없으므로 /test-page1로 이동 후 해당 섹션으로
+  const base = solid ? "/test-page1" : "";
   const items: [string, string][] = [
-    ["홈", "#"],
-    ["테니스 트립", "#trips"],
-    ["FAQ", "#faq"],
+    ["홈", solid ? "/test-page1" : "#"],
+    ["테니스 트립", `${base}#trips`],
+    ["FAQ", `${base}#faq`],
   ];
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolledState, setScrolled] = useState(false);
+  const scrolled = solid || scrolledState;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -103,7 +111,7 @@ function Nav() {
   return (
     <header className={`th-navbar ${scrolled ? "th-navbar--scrolled" : "th-navbar--top"}`}>
       <div className="th-container flex items-center justify-between py-4">
-        <a href="#" className="th-navbar__logo" aria-label="러브코트 홈">
+        <a href={solid ? "/test-page1" : "#"} className="th-navbar__logo" aria-label="러브코트 홈">
           <img src={scrolled ? "/logo_lovecourt_mainOrange.png" : "/logo_lovecourt_white.png"} alt="LOVE COURT" />
         </a>
         <nav className="p1-nav hidden md:flex">
@@ -111,8 +119,8 @@ function Nav() {
             <a
               key={label}
               href={href}
-              onClick={href === "#" ? undefined : scrollToAnchor}
-              className={`p1-nav__link ${i === 0 ? "p1-nav__link--active" : ""}`}
+              onClick={href.startsWith("#") && href !== "#" ? scrollToAnchor : undefined}
+              className={`p1-nav__link ${i === (solid ? 1 : 0) ? "p1-nav__link--active" : ""}`}
             >
               {label}
             </a>
@@ -155,10 +163,26 @@ function Hero() {
 /* ---------------------------------------------------------------- */
 function ValueStrip() {
   const values = [
-    { k: "Court", t: "좋은 코트, 확정된 날짜", d: "외륜산 뷰 옥외 코트 3면을 통대관합니다." },
-    { k: "Move", t: "귀찮은 건 전부 러브코트가", d: "공항 집결부터 버스, 숙소, 식사까지." },
-    { k: "Connect", t: "나와 맞는 사람들과", d: "실력과 나잇대가 맞는 6~8명으로 한 기수." },
-    { k: "Remember", t: "그 장면 속의 나를 남기다", d: "전문 스냅 작가가 전 일정 동행합니다." },
+    {
+      k: "Court",
+      t: "좋은 코트, 확정된 시간",
+      d: "모든 트립은 코트 전용 대관을 확정한 뒤에만 모집을 열어요. 현지에 도착해 빈 코트를 찾거나 순서를 기다릴 일 없이, 일정표에 적힌 시간에 바로 라켓을 꺼내면 돼요. 경기는 호스트가 로테이션 방식으로 진행해서, 처음 만난 사람과도 자연스럽게 파트너가 돼요.",
+    },
+    {
+      k: "Move",
+      t: "귀찮은 건 전부 러브코트가",
+      d: "공항 집결부터 전용 차량, 숙소, 식사 예약까지 모두 준비되어 있어요. 여행업 등록 업체로서 모든 예약을 직접 관리하고, 호스트가 출발부터 귀국까지 전 일정을 함께해요. 낯선 곳에서 길을 묻고 메뉴를 고민하는 대신, 테니스와 사람에게만 집중하세요.",
+    },
+    {
+      k: "Connect",
+      t: "혼자 와도 괜찮은 여행",
+      d: "동행을 구하지 않아도 돼요. 함께할 사람들은 러브코트가 직접 모아요. 트립마다 실력 조건을 미리 공개하고, 그 조건에 맞는 분들이 신청해 6~8명의 한 기수가 돼요. 대부분 혼자 오는 분들이라 모두가 같은 출발선에 서 있고, 첫 만남이 어색하지 않도록 호스트가 처음부터 자리와 대화를 이어드려요.",
+    },
+    {
+      k: "Remember",
+      t: "그 장면 속의 나를 남겨요",
+      d: "전문 스냅 작가가 전 일정을 함께해요. 코트 위의 랠리부터 저녁 식탁의 웃음까지, 혼자 여행하면 남기기 어려운 “내가 나온 사진”을 남겨드려요.",
+    },
   ];
   return (
     <section className="th-container p1-strip" aria-label="러브코트 트립의 네 가지">
@@ -277,7 +301,7 @@ function Faq() {
 /* ---------------------------------------------------------------- */
 /* 5. 푸터 (+ 사업자 정보)                                             */
 /* ---------------------------------------------------------------- */
-function Footer() {
+export function Footer() {
   const cols: Record<string, string[]> = {
     트립: ["모집 중인 트립", "준비 중인 트립", "오픈 알림"],
     러브코트: ["러브코트는", "대표 이야기", "인스타그램"],

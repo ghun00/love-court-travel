@@ -1,0 +1,444 @@
+/* /test-page1/trips/:id — 트립 상세 (td-*). 클투 상세 톤: 흰 배경 · 산세리프 · 회색 박스 */
+
+.td-root {
+  --th-bg: #fff;
+  --td-gray: #f6f6f6;
+  --td-accent: #fd4a01;
+  background: #fff;
+  font-family: "Pretendard", "Inter", system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.td-page {
+  padding-top: 96px; /* 고정 네비 높이 + 여백 */
+  padding-bottom: 96px;
+}
+
+/* ---------- 대표 이미지 (가로형) ---------- */
+.td-hero {
+  overflow: hidden;
+  border-radius: 16px;
+  aspect-ratio: 4 / 3;
+  background: var(--td-gray);
+}
+.td-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---------- 레이아웃 ---------- */
+.td-layout {
+  display: grid;
+  gap: 28px;
+  margin-top: 28px;
+  grid-template-areas: "head" "aside" "main";
+}
+.td-head {
+  grid-area: head;
+}
+.td-book {
+  grid-area: aside;
+}
+.td-main {
+  grid-area: main;
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .td-hero {
+    aspect-ratio: 21 / 9;
+  }
+  .td-layout {
+    grid-template-columns: minmax(0, 1fr) 400px;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "head aside"
+      "main aside";
+    column-gap: 80px;
+    row-gap: 8px;
+    margin-top: 48px;
+    align-items: start;
+  }
+  .td-book {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+/* ---------- 제목 ---------- */
+.td-head__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.td-head__sub {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #8a8a8a;
+}
+.td-head__sub i {
+  width: 1px;
+  height: 12px;
+  background: #d4d4d4;
+}
+
+/* ---------- 예약 카드 ---------- */
+.td-book__card {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 28px;
+  padding: 36px 32px 32px;
+}
+.td-book__h {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.td-book__warn {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--td-accent);
+}
+
+.td-opt {
+  margin-top: 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #ececec;
+}
+.td-opt__label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+}
+.td-opt__btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.td-opt__btns button {
+  height: 46px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #222;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.td-opt__btns button:hover {
+  border-color: #aaa;
+}
+.td-opt__btns button.is-active {
+  border: 1.5px solid var(--td-accent);
+  color: var(--td-accent);
+  font-weight: 600;
+}
+.td-opt__extra {
+  margin-top: 10px;
+  font-size: 0.88rem;
+  color: #333;
+}
+.td-opt__extra b {
+  font-weight: 500;
+  color: var(--td-accent);
+}
+
+.td-book__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.td-book__row--rest {
+  margin-top: 22px;
+}
+.td-book__row--rest span {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.td-book__row--rest strong {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.td-book__row--rest + .td-book__warn {
+  padding-bottom: 22px;
+  border-bottom: 1px solid #ececec;
+}
+.td-book__row--now {
+  margin-top: 24px;
+}
+.td-book__row--now span {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.td-book__row--now strong {
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+.td-book__row--sub {
+  margin-top: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #555;
+}
+.td-book__fine {
+  margin-top: 8px;
+  font-size: 0.72rem;
+  color: #9a9a9a;
+}
+.td-book__cta {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 58px;
+  border-radius: 6px;
+  background: #111;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background 0.15s ease;
+}
+.td-book__cta:hover {
+  background: #000;
+}
+
+/* ---------- 섹션 탭 (sticky 앵커) ---------- */
+.td-tabs {
+  position: sticky;
+  top: 70px; /* 고정 네비 바로 아래 */
+  z-index: 20;
+  display: flex;
+  gap: 22px;
+  margin-top: 32px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: #fff;
+  border-bottom: 1px solid #e4e4e4;
+}
+.td-tabs::-webkit-scrollbar {
+  display: none;
+}
+.td-tabs a {
+  flex: none;
+  padding: 18px 0 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #c2c2c2;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s ease;
+}
+.td-tabs a:hover {
+  color: #666;
+}
+.td-tabs a.is-active {
+  color: #111;
+  border-bottom-color: #111;
+}
+
+/* ---------- 섹션 공통 ---------- */
+.td-section {
+  padding-top: 48px;
+  scroll-margin-top: 134px; /* 네비 + 탭 높이 */
+}
+.td-section__title {
+  margin-bottom: 18px;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.td-note {
+  margin-top: 14px;
+  font-size: 0.78rem;
+  color: #9a9a9a;
+}
+
+/* ---------- 제공 사항 (What we offer) — 탭 위 아이콘 리스트 ---------- */
+.td-offer-sec {
+  margin-top: 36px;
+}
+.td-offers {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 32px;
+  background: var(--td-gray);
+  border-radius: 14px;
+  padding: 10px 24px;
+}
+@media (min-width: 768px) {
+  .td-offers {
+    grid-template-columns: 1fr 1fr;
+    padding: 14px 28px;
+  }
+}
+.td-offer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+}
+.td-offer svg {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  color: #222;
+}
+.td-offer p {
+  font-size: 0.93rem;
+  color: #333;
+  line-height: 1.4;
+}
+.td-offer b {
+  font-weight: 700;
+  color: #111;
+  background: linear-gradient(transparent 62%, rgba(253, 74, 1, 0.18) 62%);
+}
+.td-offer small {
+  margin-left: 6px;
+  font-size: 0.85rem;
+  color: #8a8a8a;
+}
+
+/* ---------- 기본 정보 박스 ---------- */
+.td-info {
+  background: var(--td-gray);
+  border-radius: 14px;
+  padding: 28px 32px 24px;
+}
+.td-info dl {
+  display: grid;
+  gap: 14px;
+}
+.td-info dl div {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 16px;
+  font-size: 0.95rem;
+}
+.td-info dt {
+  font-weight: 600;
+  color: #333;
+}
+.td-info dd {
+  color: #333;
+}
+.td-info .td-note {
+  margin-top: 20px;
+}
+
+/* ---------- 상세 설명 이미지 ---------- */
+.td-detail-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.td-detail-ph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  aspect-ratio: 1 / 2.4;
+  max-height: 1400px;
+  width: 100%;
+  border-radius: 14px;
+  background: var(--td-gray);
+  color: #9a9a9a;
+  font-size: 0.85rem;
+  text-align: center;
+}
+.td-detail-ph code {
+  font-size: 0.72rem;
+}
+
+/* ---------- 후기 ---------- */
+.td-reviews__head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.td-reviews__head strong {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.td-reviews__head > span:last-child {
+  font-size: 0.75rem;
+  color: #9a9a9a;
+}
+.td-reviews {
+  display: grid;
+  gap: 10px;
+}
+@media (min-width: 768px) {
+  .td-reviews {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.td-review {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  border: 1px solid #ececec;
+  border-radius: 14px;
+}
+.td-review p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #333;
+}
+.td-review__who {
+  margin-top: auto;
+  font-size: 0.78rem;
+  color: #9a9a9a;
+}
+.td-review__who b {
+  margin-right: 6px;
+  color: #333;
+}
+.td-stars {
+  display: inline-flex;
+  gap: 2px;
+}
+.td-stars svg {
+  width: 15px;
+  height: 15px;
+  fill: #e2e2e2;
+}
+.td-stars svg.is-on {
+  fill: #ffb400;
+}
+
+/* ---------- 준비 중 ---------- */
+.td-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding-top: 96px;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* 옵션 미선택 상태 */
+.td-opt__need {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--td-accent);
+}
+.td-book__row--rest .td-book__pending {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #a5a5a5;
+}
