@@ -74,7 +74,6 @@ const OFFERS: { icon: ReactNode; t: ReactNode; sub?: string }[] = [
     // 디너
     icon: <path d="M7 3v8M5 3v4a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1-3 4-3 8h3" />,
     t: "피날레 디너",
-    sub: "Uosei",
   },
   {
     // 카메라
