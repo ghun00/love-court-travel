@@ -13,6 +13,8 @@ export interface TripRoom {
   price: number;
   /** 정가 — 할인 중일 때 취소선 표기 */
   listPrice?: number;
+  /** 선택 불가 (마감 등) */
+  disabled?: boolean;
 }
 
 export interface Trip {
@@ -98,7 +100,7 @@ export const TRIPS: Trip[] = [
     refundPolicy: ["[환불 규정 — 대표 확정 전 게시 불가, 결제 오픈 전 필수]"],
     rooms: [
       { id: "twin", label: "2인 1실", price: 1_490_000, listPrice: 1_690_000 },
-      { id: "single", label: "1인 1실", price: 1_790_000 },
+      { id: "single", label: "1인 1실", price: 1_790_000, disabled: true },
     ],
     depositAmount: 300_000,
   },

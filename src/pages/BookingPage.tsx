@@ -12,7 +12,7 @@ export function BookingPage() {
   const [agreed, setAgreed] = useState(false);
   // 상세 페이지(/test-page1/trips/:id)에서 선택한 객실 — rooms가 있는 트립만
   const [params] = useSearchParams();
-  const room = trip?.rooms?.find((r) => r.id === params.get("room")) ?? trip?.rooms?.[0];
+  const room = trip?.rooms?.find((r) => r.id === params.get("room") && !r.disabled) ?? trip?.rooms?.[0];
   const deposit = trip?.depositAmount ?? 0;
   const won = (n: number) => `${n.toLocaleString("ko-KR")}원`;
 

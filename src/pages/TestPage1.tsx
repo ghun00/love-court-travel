@@ -126,9 +126,6 @@ export function Nav({ solid = false }: { solid?: boolean }) {
             </a>
           ))}
         </nav>
-        <a href="#" className="th-navbar__login p1-login">
-          로그인
-        </a>
       </div>
     </header>
   );

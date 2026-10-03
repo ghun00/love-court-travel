@@ -136,6 +136,12 @@
 .td-opt__btns button:hover {
   border-color: #aaa;
 }
+.td-opt__btns button:disabled {
+  border-color: #ececec;
+  background: #f5f5f5;
+  color: #bbb;
+  cursor: not-allowed;
+}
 .td-opt__btns button.is-active {
   border: 1.5px solid var(--td-accent);
   color: var(--td-accent);

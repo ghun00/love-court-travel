@@ -19,7 +19,7 @@
   scroll-margin-top: 72px;
 }
 
-/* ---------- 네비: 텍스트 메뉴 + 오렌지 로그인 ---------- */
+/* ---------- 네비: 텍스트 메뉴 ---------- */
 .p1-nav {
   align-items: center;
   gap: 44px;
@@ -45,16 +45,6 @@
 }
 .th-navbar--scrolled .p1-nav__link--active {
   color: var(--th-ink);
-}
-.th-navbar--top .p1-login,
-.th-navbar--scrolled .p1-login {
-  color: #fff;
-  background: #fd4a01;
-  border: 1px solid #fd4a01;
-}
-.th-navbar--top .p1-login:hover,
-.th-navbar--scrolled .p1-login:hover {
-  background: #e64200;
 }
 .th--p1 .th-navbar--scrolled {
   background: #fff;

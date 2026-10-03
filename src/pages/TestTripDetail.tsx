@@ -49,7 +49,7 @@ const OFFERS: { icon: ReactNode; t: ReactNode; sub?: string }[] = [
         <path d="M3 13c0 4 4 7 9 7s9-3 9-7c0-1-.6-1.5-1.5-1.5h-15C3.6 11.5 3 12 3 13z" />
       </>
     ),
-    t: <b>온천 무제한 이용</b>,
+    t: <b>온천 및 사우나 무제한 이용</b>,
   },
   {
     // 코트
@@ -86,16 +86,6 @@ const OFFERS: { icon: ReactNode; t: ReactNode; sub?: string }[] = [
     t: <b>전문 작가의 스냅 촬영</b>,
   },
   {
-    // 사람들
-    icon: (
-      <>
-        <circle cx="9" cy="8" r="3" />
-        <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 5a3 3 0 0 1 0 6M21 20c0-2.6-1.6-4.8-4-5.6" />
-      </>
-    ),
-    t: "출국 전 사전 모임",
-  },
-  {
     // 방패
     icon: <path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6l8-3zM8.5 12l2.5 2.5 4.5-5" />,
     t: "여행자보험 전원 가입",
@@ -108,7 +98,7 @@ const OFFERS: { icon: ReactNode; t: ReactNode; sub?: string }[] = [
         <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8M12 13l-1.5 3 1.5 1.5 1.5-1.5L12 13" />
       </>
     ),
-    t: "전담 호스트(대표) 동행",
+    t: "전담 투어 리더 동행",
   },
 ];
 
@@ -196,9 +186,10 @@ export function TestTripDetail() {
                   {[
                     ["여행 일정", `${trip.dates} ${trip.duration}`],
                     ["여행 도시", trip.destination],
-                    ["집결 장소", "나리타 공항 (오전 도착 편 권장)"],
+                    ["집결 장소", "나리타 공항 터미널 2 1층 Central Gate | Info 부스 앞"],
+                    ["집결 시간", "오전 11시 10분까지 (오전 10시 40분 이전 도착편 권장)"],
                     ["참가 인원", `최소 6명 ~ 최대 ${trip.capacity}명 선착순 모집`],
-                    ["참가 레벨", "복식 게임이 가능한 정도"],
+                    ["참가 레벨", "랠리를 지속할 수 있고 준수한 수준의 서브 및 리턴을 구사할 수 있는 실력"],
                     ["항공권", "불포함 (개별 구매)"],
                   ].map(([k, v]) => (
                     <div key={k}>
@@ -261,7 +252,7 @@ function BookingCard({ tripId, rooms, deposit }: { tripId: string; rooms: TripRo
           <span className="td-opt__label" id="opt-room">숙박 옵션</span>
           <div className="td-opt__btns" role="radiogroup" aria-labelledby="opt-room">
             {rooms.map((r) => (
-              <button key={r.id} type="button" role="radio" aria-checked={r.id === roomId}
+              <button key={r.id} type="button" role="radio" aria-checked={r.id === roomId} disabled={r.disabled}
                 className={r.id === roomId ? "is-active" : ""} onClick={() => {
                   setRoomId(r.id);
                   setNeedRoom(false);
