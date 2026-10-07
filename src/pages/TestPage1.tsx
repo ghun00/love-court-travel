@@ -265,18 +265,7 @@ function Trips() {
       <div className="th-glow" />
       <div className="th-container relative">
         <div className="p1-row-head">
-          <div>
-            <h2 className="th-serif p1-row-head__title">모집 중인 테니스 트립</h2>
-            <p className="mt-2 text-sm text-[var(--th-muted)]">
-              확정된 날짜와 코트, 한 기수 6~8명. 자리가 차면 닫힙니다.
-            </p>
-          </div>
-          <Link to="/test" className="p1-row-head__more">
-            더보기
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-              <path d="M6 3l5 5-5 5" />
-            </svg>
-          </Link>
+          <h2 className="th-serif p1-row-head__title">모집 중인 테니스 트립</h2>
         </div>
 
         <ul className="p1-cards">
@@ -399,10 +388,6 @@ function Faq() {
         {
           q: "스냅 사진은 언제 받을 수 있나요?",
           a: "트립이 끝난 뒤 3주 이내에 보정본을 전달해 드리는 것이 원칙이에요.",
-        },
-        {
-          q: "찍힌 사진이 홍보에 쓰이나요?",
-          a: "네, 트립 사진은 러브코트의 홍보에 활용될 수 있어요. 신청 시 사진 활용 동의를 받고 있으며, 동의하지 않으시면 트립 참가가 어려워요.",
         },
       ],
     },

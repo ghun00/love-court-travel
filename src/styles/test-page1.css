@@ -111,7 +111,7 @@
   }
 }
 
-/* ---------- 행 헤더: 제목 좌측, 더보기 우측 (클투) ---------- */
+/* ---------- 행 헤더 ---------- */
 .p1-row-head {
   display: flex;
   align-items: flex-end;
@@ -121,22 +121,6 @@
 .p1-row-head__title {
   font-size: clamp(1.6rem, 3vw, 2.3rem);
   line-height: 1.22;
-}
-.p1-row-head__more {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  flex: none;
-  padding-bottom: 4px;
-  font-size: 0.82rem;
-  color: var(--th-muted);
-}
-.p1-row-head__more svg {
-  width: 14px;
-  height: 14px;
-}
-.p1-row-head__more:hover {
-  color: var(--th-ink);
 }
 
 /* ---------- 트립 카드 3열 ---------- */
