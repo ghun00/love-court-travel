@@ -47,7 +47,7 @@ const TRIP_CARDS: TripCard[] = [
     dates: "2026.10.17 – 19 (2박 3일)",
     price: "얼리버드 149만 원",
     priceNote: "정가 169만 원, 항공권 별도",
-    img: "/images/poster-hakone.png",
+    img: "/images/poster-hakone-1.png",
     to: "/test-page1/trips/hakone",
   },
   {
@@ -56,7 +56,7 @@ const TRIP_CARDS: TripCard[] = [
     place: "인도네시아 발리",
     name: "발리 테니스 트립",
     dates: "일정 준비 중",
-    img: "/images/poster-hakone.png",
+    img: "/images/poster-bali.png",
   },
   {
     id: "vietnam",
@@ -64,7 +64,7 @@ const TRIP_CARDS: TripCard[] = [
     place: "베트남",
     name: "베트남 테니스 트립",
     dates: "일정 준비 중",
-    img: "/images/poster-hakone.png",
+    img: "/images/poster-danang.png",
   },
 ];
 
@@ -142,9 +142,9 @@ function Hero() {
           <br />
           해외 테니스 트립
         </h1>
-        <p className="mt-6 max-w-md text-sm text-white/85 md:text-[0.95rem]">
-          좋은 코트, 나와 맞는 6~8명, 그 장면을 남기는 전문 스냅 작가.
-          라켓만 챙기세요. 코트 예약, 이동, 식사는 러브코트가 준비합니다.
+        <p className="mt-6 max-w-md text-sm text-white/85 md:max-w-xl md:text-lg">
+          해외의 좋은 코트에서 치고, 혼자 온 사람들과 친구가 되고, 그 순간을 사진으로 가져가요.
+          라켓만 챙기세요. 나머지는 러브코트가 준비할게요.
         </p>
 
         <a href={TRIPS_ANCHOR} onClick={scrollToAnchor} className="th-pill mt-8">
@@ -317,41 +317,116 @@ function TripCardView({ trip }: { trip: TripCard }) {
 /* 4. FAQ — 예약 직전 불안 4가지                                        */
 /* ---------------------------------------------------------------- */
 function Faq() {
-  const items = [
+  const groups = [
     {
-      q: "혼자 신청해도 되나요?",
-      a: "네, 대부분 혼자 오십니다. 테니스가 처음부터 공통점을 만들어 주기 때문에 억지로 대화를 이어갈 필요가 없습니다. 출국 전 서울 사전 모임에서 먼저 얼굴을 익힙니다.",
+      title: "참가 관련",
+      items: [
+        {
+          q: "정말 혼자 가도 괜찮을까요?",
+          a: "그럼요! 러브코트는 혼자 오는 분들을 위해 만든 트립이에요. 참가자 대부분이 혼자 오기 때문에, 낯선 무리에 혼자 끼는 기분은 걱정하지 않으셔도 돼요. 출국 전 단톡방과 사전 모임에서 미리 인사를 나누니까, 떠나는 날엔 이미 아는 얼굴들과 함께해요.",
+        },
+        {
+          q: "참가 연령대가 정해져 있나요?",
+          a: "네, 트립마다 참가 연령대를 정해두고 있어요. 각 트립 상세페이지에서 확인해 주세요.",
+        },
+        {
+          q: "참가자 성비는 어떻게 되나요?",
+          a: "성비는 기수와 트립마다 달라요. 트립별 구성이 궁금하시면 편하게 문의해 주세요.",
+        },
+        {
+          q: "친구나 연인과 함께 신청할 수 있나요?",
+          a: "친구와 함께라면 신청할 수 있어요! 다만 커플 신청은 아쉽지만 받지 않고 있어요. 혼자 온 분들이 중심이 되는 트립이기 때문이에요.",
+        },
+        {
+          q: "테니스 실력이 어느 정도여야 하나요?",
+          a: "트립마다 권장 실력을 '입문 / 랠리 가능 / 게임 가능'으로 나눠 상세페이지에 안내하고 있어요. 내 실력이 어디에 해당하는지 애매하다면 신청 전에 편하게 물어봐 주세요.",
+        },
+      ],
     },
     {
-      q: "테니스 실력은 어느 정도여야 하나요?",
-      a: "복식 게임을 할 수 있는 정도를 기준으로 합니다. 신청 후 대표가 직접 연락드려 실력과 기대를 듣고, 이번 기수와 잘 맞는지 함께 확인합니다.",
+      title: "예약 · 결제",
+      items: [
+        {
+          q: "예약금은 얼마인가요?",
+          a: "예약금은 30만 원이에요. 자리는 선착순으로 마감되니, 마음이 정해졌다면 빠르게 신청해 주세요.",
+        },
+        {
+          q: "최소 출발 인원이 있나요?",
+          a: "최소 출발 인원은 기수마다 달라요. 신청 전에 각 트립 상세페이지에서 꼭 확인해 주세요.",
+        },
+        {
+          q: "항공권은 언제 사면 되나요?",
+          a: "트립 진행이 확정되고 잔금 결제를 마친 뒤에 구매해 주세요. 예약금 결제 단계에서는 항공권을 사지 않으셔도 돼요.",
+        },
+        {
+          q: "취소하면 환불받을 수 있나요?",
+          a: "취소 시점에 따른 환불 규정이 있어요. 예약금 결제 화면, 각 트립 상세페이지, 그리고 페이지 하단의 이용약관에서 확인할 수 있어요.",
+        },
+      ],
     },
     {
-      q: "환불 규정은 어떻게 되나요?",
-      a: "최소 인원 6명이 모이지 않으면 전액 환불합니다. 그 외 취소 시점별 환불 기준은 [대표 확정] 후 상세 페이지에 게시됩니다.",
+      title: "트립 진행",
+      items: [
+        {
+          q: "숙소는 어떻게 배정되나요?",
+          a: "기본은 2인 1실이에요. 트립에 따라 1인실 업그레이드 옵션이 있는 경우도 있으니, 상세페이지에서 확인해 주세요.",
+        },
+        {
+          q: "레슨이나 코칭도 받을 수 있나요?",
+          a: "레슨과 코칭 포함 여부는 트립마다 달라요. 상세페이지의 포함 사항에서 확인해 주세요.",
+        },
+        {
+          q: "장비는 무엇을 챙겨야 하나요?",
+          a: "라켓, 테니스화, 운동복만 챙겨 주세요. 테니스공은 러브코트가 준비해요.",
+        },
+        {
+          q: "비가 오면 어떻게 되나요?",
+          a: "우천으로 테니스를 진행하지 못하는 경우를 대비한 환불 규정이 마련되어 있어요. 자세한 내용은 이용약관에서 확인해 주세요.",
+        },
+        {
+          q: "보험은 따로 들어야 하나요?",
+          a: "러브코트가 참가자 보험을 적용하고 있어요.",
+        },
+        {
+          q: "외국어를 못 해도 괜찮을까요?",
+          a: "괜찮아요! 투어 리더가 트립 내내 함께하면서 이동과 식사를 챙겨요.",
+        },
+      ],
     },
     {
-      q: "항공권도 포함인가요?",
-      a: "항공권은 개별 구매입니다. 나리타 공항에 오전에 도착하는 편을 권해 드리며, 앞뒤로 개인 일정을 붙이거나 현지에서 합류하셔도 됩니다.",
+      title: "사진",
+      items: [
+        {
+          q: "스냅 사진은 언제 받을 수 있나요?",
+          a: "트립이 끝난 뒤 3주 이내에 보정본을 전달해 드리는 것이 원칙이에요.",
+        },
+        {
+          q: "찍힌 사진이 홍보에 쓰이나요?",
+          a: "네, 트립 사진은 러브코트의 홍보에 활용될 수 있어요. 신청 시 사진 활용 동의를 받고 있으며, 동의하지 않으시면 트립 참가가 어려워요.",
+        },
+      ],
     },
   ];
   return (
     <section id="faq" className="th-container py-20 md:py-28">
       <div className="p1-faq">
         <h2 className="th-serif p1-row-head__title">자주 묻는 질문</h2>
-        <div className="mt-8">
-          {items.map((it) => (
-            <details className="p1-faq__item" key={it.q}>
-              <summary>
-                <span>{it.q}</span>
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
-                  <path d="M4 8l6 6 6-6" />
-                </svg>
-              </summary>
-              <p>{it.a}</p>
-            </details>
-          ))}
-        </div>
+        {groups.map((g) => (
+          <div className="p1-faq__group" key={g.title}>
+            <h3 className="p1-faq__group-title">{g.title}</h3>
+            {g.items.map((it) => (
+              <details className="p1-faq__item" key={it.q}>
+                <summary>
+                  <span>Q. {it.q}</span>
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+                    <path d="M4 8l6 6 6-6" />
+                  </svg>
+                </summary>
+                <p>{it.a}</p>
+              </details>
+            ))}
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -360,6 +435,13 @@ function Faq() {
 /* ---------------------------------------------------------------- */
 /* 5. 푸터 (+ 사업자 정보)                                             */
 /* ---------------------------------------------------------------- */
+const BIZ_ROWS: [string, string][][] = [
+  [["대표", "한지훈"], ["개인정보책임관리자", "한지훈"]],
+  [["사업자등록번호", "481-11-03110"], ["관광사업자등록번호", "제2026-000006호"], ["통신판매업신고", "2026-경기하남-1633"]],
+  [["주소", "경기도 하남시 미사대로 550, 10층 C10-0001호,1003호"]],
+  [["메일", "gks3628@gmail.com"], ["연락처", "010-2439-3628"]],
+];
+
 export function Footer() {
   const cols: Record<string, string[]> = {
     트립: ["모집 중인 트립", "준비 중인 트립", "오픈 알림"],
@@ -394,10 +476,20 @@ export function Footer() {
       </div>
 
       <div className="th-container relative p1-biz">
-        <span>러브코트</span>
-        <span>통신판매업 신고 2026-서울강동-1175</span>
-        <span>등록 여행사 제휴 운영</span>
-        <span>© Love Court 2026</span>
+        <strong className="p1-biz__name">프라이데이랩</strong>
+        <dl className="p1-biz__list">
+          {BIZ_ROWS.map((row, i) => (
+            <div key={i} className="p1-biz__row">
+              {row.map(([k, v]) => (
+                <div key={k} className="p1-biz__item">
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </div>
+          ))}
+        </dl>
+        <span className="p1-biz__copy">© Love Court 2026</span>
       </div>
 
     </footer>

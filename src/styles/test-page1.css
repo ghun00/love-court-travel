@@ -212,6 +212,17 @@
   max-width: 720px;
   margin-inline: auto;
 }
+.p1-faq__group {
+  margin-top: 40px;
+}
+.p1-faq__group-title {
+  margin-bottom: 8px;
+  padding-inline: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--th-muted);
+}
 .p1-faq__item {
   border-top: 1px solid var(--th-line);
 }
@@ -258,14 +269,48 @@
 /* ---------- 푸터 사업자 정보 ---------- */
 .p1-biz {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px 18px;
+  flex-direction: column;
+  gap: 10px;
   margin-top: 40px;
   padding-top: 20px;
   padding-bottom: 40px;
   border-top: 1px solid var(--th-line);
   font-size: 0.66rem;
+  line-height: 1.6;
   color: var(--th-muted);
+}
+
+.p1-biz__name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--th-ink, currentColor);
+}
+
+.p1-biz__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+}
+
+.p1-biz__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 28px;
+}
+
+.p1-biz__item {
+  display: flex;
+  gap: 10px;
+}
+
+.p1-biz__item dt {
+  color: var(--th-muted);
+}
+
+.p1-biz__item dd {
+  margin: 0;
+  color: var(--th-ink, currentColor);
 }
 
 @media (prefers-reduced-motion: reduce) {
