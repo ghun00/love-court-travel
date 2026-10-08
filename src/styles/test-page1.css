@@ -358,6 +358,26 @@
   color: var(--th-ink, currentColor);
 }
 
+/* ---------- 푸터 약관 링크 ---------- */
+.p1-legal {
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--th-line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  font-size: 0.72rem;
+}
+.p1-legal a {
+  color: var(--th-ink, #17181a);
+}
+.p1-legal a.is-strong {
+  font-weight: 700;
+}
+.p1-legal a:hover {
+  text-decoration: underline;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .p1-card__photo img,
   .p1-faq__item summary svg {

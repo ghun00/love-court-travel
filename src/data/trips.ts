@@ -146,6 +146,11 @@ export function getTrip(id: string): Trip | undefined {
   return TRIPS.find((t) => t.id === id);
 }
 
+/** 상세 페이지에서 예약까지 가능한 트립 — 상세 노출·sitemap·프리렌더 기준 */
+export function isBookable(trip: Trip): boolean {
+  return trip.status === "open" && !!trip.rooms?.length;
+}
+
 export function getOpenTrip(): Trip | undefined {
   return TRIPS.find((t) => t.status === "open");
 }

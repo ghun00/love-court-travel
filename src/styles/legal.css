@@ -1,0 +1,190 @@
+/* /legal/:doc — 약관·방침 문서 (lg-*). 트립 상세(td-root) 톤 위에 문서용 타이포만 얹음 */
+
+.lg-page {
+  max-width: 820px;
+  padding-top: 96px; /* 고정 네비 높이 + 여백 */
+  padding-bottom: 96px;
+}
+
+/* ---------- 문서 탭 ---------- */
+.lg-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.lg-tabs::-webkit-scrollbar {
+  display: none;
+}
+.lg-tabs a {
+  flex: none;
+  padding: 8px 14px;
+  border: 1px solid #e4e4e4;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #777;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.lg-tabs a:hover {
+  color: #111;
+}
+.lg-tabs a.is-active {
+  color: #fff;
+  background: #111;
+  border-color: #111;
+}
+
+/* ---------- 문서 ---------- */
+.lg-doc {
+  margin-top: 36px;
+  color: #333;
+  font-size: 0.92rem;
+  line-height: 1.75;
+  word-break: keep-all;
+}
+.lg-doc__title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #111;
+}
+.lg-doc__date {
+  margin-top: 6px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #e4e4e4;
+  font-size: 0.82rem;
+  color: #9a9a9a;
+}
+.lg-lead {
+  margin-top: 28px;
+}
+.lg-doc p + p {
+  margin-top: 8px;
+}
+
+.lg-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 20px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: #f6f6f6;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.lg-toc a {
+  color: #555;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lg-part {
+  margin-top: 56px;
+  scroll-margin-top: 80px;
+}
+.lg-part__title {
+  padding-bottom: 12px;
+  border-bottom: 2px solid #111;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #111;
+}
+
+.lg-art {
+  margin-top: 32px;
+}
+.lg-art__title {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.lg-ol,
+.lg-ul {
+  display: grid;
+  gap: 6px;
+  padding-left: 1.4em;
+}
+.lg-ol {
+  list-style: decimal;
+}
+.lg-ul {
+  list-style: disc;
+}
+.lg-ol .lg-ol {
+  list-style: lower-alpha;
+  margin-top: 6px;
+}
+.lg-ol .lg-ul,
+.lg-ul .lg-ul {
+  list-style: none;
+  padding-left: 0.4em;
+  margin-top: 6px;
+}
+
+.lg-note {
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: #8a8a8a;
+}
+
+.lg-link {
+  color: #111;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* 미확정 값 — 오픈 전에 모두 없어져야 함 */
+.lg-todo {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: #fff1a8;
+  color: #6b5200;
+  font-weight: 600;
+}
+
+/* ---------- 표 ---------- */
+.lg-table {
+  margin-top: 12px;
+  overflow-x: auto;
+  border-top: 2px solid #111;
+}
+.lg-table table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.lg-table th,
+.lg-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e4e4e4;
+  text-align: left;
+  vertical-align: top;
+}
+.lg-table th {
+  background: #f6f6f6;
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+}
+
+/* 증권 PDF — A4 세로 비율로 임베드, 모바일(iOS 등)은 아래 링크로 열기 */
+.lg-cert {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1.414;
+  max-height: 900px;
+  margin-top: 16px;
+  border: 1px solid #e4e4e4;
+  border-radius: 8px;
+}
+.lg-cert__link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.85rem;
+}
