@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Disallow: /foam
+
+# 검색·AI 답변 엔진 크롤러 명시 허용
+User-agent: Yeti
+User-agent: Googlebot
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: PerplexityBot
+Allow: /
+Disallow: /foam
+
+Sitemap: https://love-court.kr/sitemap.xml

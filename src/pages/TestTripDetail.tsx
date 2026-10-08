@@ -1,6 +1,6 @@
 import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getTrip, type TripRoom } from "../data/trips";
+import { getTrip, isBookable, type TripRoom } from "../data/trips";
 import { Footer, Nav } from "./TestPage1";
 import "../styles/test-home.css";
 import "../styles/test-home3.css";
@@ -137,7 +137,7 @@ export function TestTripDetail() {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [id]);
 
-  if (!trip || trip.status !== "open" || !rooms?.length) {
+  if (!trip || !isBookable(trip) || !rooms?.length) {
     return (
       <div className="th th--v3 th--p1 td-root">
         <Nav solid />
