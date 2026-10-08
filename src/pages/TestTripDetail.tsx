@@ -8,7 +8,7 @@ import "../styles/test-page1.css";
 import "../styles/test-trip-detail.css";
 
 /**
- * /test-page1/trips/:id — 트립 상세 (test-page1 스킨)
+ * /trips/:id — 트립 상세 (test-page1 스킨)
  * - 클투: 상단 가로 대표 이미지 → 좌 제목·본문 / 우 sticky 예약 카드
  * - 강조 타이포(Vitro Core) 없이 산세리프 + 흰 배경 + 회색 정보 박스로 담백하게
  * - 모바일: 이미지 → 제목 → 예약 카드 → 본문 (grid-area로 배치)
@@ -143,7 +143,7 @@ export function TestTripDetail() {
         <Nav solid />
         <div className="td-empty th-container">
           <p>준비 중인 트립입니다.</p>
-          <Link to="/test-page1" className="th-pill th-pill--dark mt-6">
+          <Link to="/" className="th-pill th-pill--dark mt-6">
             모집 중인 트립 보기
           </Link>
         </div>

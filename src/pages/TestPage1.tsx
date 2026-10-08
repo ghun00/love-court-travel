@@ -5,10 +5,10 @@ import "../styles/test-home3.css";
 import "../styles/test-page1.css";
 
 /**
- * /test-page1 — 클투(cltoo.com) 스토어프런트 구조 + /test-home3 스킨
+ * / (기본 홈) — 클투(cltoo.com) 스토어프런트 구조 + /test-home3 스킨
  * - 히어로(test-home3 카피 유지 + NOW OPEN 배너) → 가치 섹션(히어로 바로 아래)
  *   → 모집 중인 트립 3카드 → FAQ → 푸터
- * - Nav / Hero 배경 / Footer는 TestHome3에서 복사 (세 테스트 페이지 모두 비교용 시안)
+ * - Nav / Hero 배경 / Footer는 예전 test-home3 시안에서 가져옴
  */
 
 const IMG = {
@@ -48,7 +48,7 @@ const TRIP_CARDS: TripCard[] = [
     price: "얼리버드 149만 원",
     priceNote: "정가 169만 원, 항공권 별도",
     img: "/images/poster-hakone-1.png",
-    to: "/test-page1/trips/hakone",
+    to: "/trips/hakone",
   },
   {
     id: "bali",
@@ -69,7 +69,7 @@ const TRIP_CARDS: TripCard[] = [
 ];
 
 export function TestPage1() {
-  // 상세 페이지 네비에서 /test-page1#trips 로 들어온 경우 해당 섹션으로 이동
+  // 상세 페이지 네비에서 /#trips 로 들어온 경우 해당 섹션으로 이동
   useEffect(() => {
     const id = window.location.hash.slice(1);
     if (id) document.getElementById(id)?.scrollIntoView({ block: "start" });
@@ -91,10 +91,10 @@ export function TestPage1() {
 /* ---------------------------------------------------------------- */
 /** solid: 히어로가 없는 페이지(트립 상세 등)에서 처음부터 흰 배경으로 고정 */
 export function Nav({ solid = false }: { solid?: boolean }) {
-  // 상세 페이지에서는 앵커가 없으므로 /test-page1로 이동 후 해당 섹션으로
-  const base = solid ? "/test-page1" : "";
+  // 상세 페이지에서는 앵커가 없으므로 홈(/)으로 이동 후 해당 섹션으로
+  const base = solid ? "/" : "";
   const items: [string, string][] = [
-    ["홈", solid ? "/test-page1" : "#"],
+    ["홈", solid ? "/" : "#"],
     ["테니스 트립", `${base}#trips`],
     ["FAQ", `${base}#faq`],
   ];
@@ -111,7 +111,7 @@ export function Nav({ solid = false }: { solid?: boolean }) {
   return (
     <header className={`th-navbar ${scrolled ? "th-navbar--scrolled" : "th-navbar--top"}`}>
       <div className="th-container flex items-center justify-between py-4">
-        <a href={solid ? "/test-page1" : "#"} className="th-navbar__logo" aria-label="러브코트 홈">
+        <a href={solid ? "/" : "#"} className="th-navbar__logo" aria-label="러브코트 홈">
           <img src={scrolled ? "/logo_lovecourt_mainOrange.png" : "/logo_lovecourt_white.png"} alt="LOVE COURT" />
         </a>
         <nav className="p1-nav hidden md:flex">
@@ -275,6 +275,14 @@ function Trips() {
             </li>
           ))}
         </ul>
+
+        <Link to="/foam" className="p1-notify">
+          <span>
+            <strong className="p1-notify__title">준비 중인 트립 오픈 소식, 가장 빨리 보려면?</strong>
+            <span className="p1-notify__desc">대기명단에 등록하면 새 트립이 열릴 때 가장 먼저 알려드려요.</span>
+          </span>
+          <span className="p1-notify__arrow" aria-hidden="true">→</span>
+        </Link>
       </div>
     </section>
   );
@@ -312,7 +320,7 @@ function Faq() {
       items: [
         {
           q: "정말 혼자 가도 괜찮을까요?",
-          a: "그럼요! 러브코트는 혼자 오는 분들을 위해 만든 트립이에요. 참가자 대부분이 혼자 오기 때문에, 낯선 무리에 혼자 끼는 기분은 걱정하지 않으셔도 돼요. 출국 전 단톡방과 사전 모임에서 미리 인사를 나누니까, 떠나는 날엔 이미 아는 얼굴들과 함께해요.",
+          a: "그럼요! 러브코트는 혼자 오는 분들을 위해 만든 트립이에요. 참가자 대부분이 혼자 오기 때문에, 낯선 무리에 혼자 끼는 기분은 걱정하지 않으셔도 돼요.",
         },
         {
           q: "참가 연령대가 정해져 있나요?",
