@@ -251,11 +251,14 @@
 }
 
 /* ---------- 푸터 사업자 정보 ---------- */
+/* 오픈 알림·링크 블록을 걷어내고 사업자 정보만 남긴 푸터 */
+.th--p1 .th-footer {
+  padding-top: 40px;
+}
 .p1-biz {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 40px;
   padding-top: 20px;
   padding-bottom: 40px;
   border-top: 1px solid var(--th-line);

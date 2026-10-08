@@ -428,38 +428,8 @@ const BIZ_ROWS: [string, string][][] = [
 ];
 
 export function Footer() {
-  const cols: Record<string, string[]> = {
-    트립: ["모집 중인 트립", "준비 중인 트립", "오픈 알림"],
-    러브코트: ["러브코트는", "대표 이야기", "인스타그램"],
-    안내: ["자주 묻는 질문", "환불 규정", "이용약관"],
-  };
   return (
     <footer className="th-footer">
-      <div className="th-container relative grid gap-12 md:grid-cols-[1fr_1fr]">
-        <div>
-          <h3 className="text-2xl font-medium tracking-tight">다음 트립 오픈 알림</h3>
-          <p className="mt-2 max-w-[280px] text-[0.68rem] text-[var(--th-muted)]">
-            이번 일정이 안 맞아도 괜찮아요. 다음 기수 오픈 소식을 먼저 보내드립니다.
-          </p>
-          <form className="th-footer__input mt-6" onSubmit={(e) => e.preventDefault()}>
-            <input type="email" placeholder="이메일 주소" aria-label="이메일" />
-            <button type="submit" className="th-pill th-pill--lime text-[0.68rem]">알림 받기</button>
-          </form>
-        </div>
-        <div className="grid grid-cols-3 gap-8">
-          {Object.entries(cols).map(([h, links]) => (
-            <div key={h}>
-              <span className="block text-[0.6rem] text-[var(--th-muted)]">{h}</span>
-              <ul className="mt-3 space-y-2 text-[0.8rem]">
-                {links.map((l) => (
-                  <li key={l}><a href="#">{l}</a></li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div className="th-container relative p1-biz">
         <strong className="p1-biz__name">프라이데이랩</strong>
         <dl className="p1-biz__list">
