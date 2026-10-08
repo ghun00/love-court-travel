@@ -1,0 +1,366 @@
+/* /test-page1 — 클투 스토어프런트 구조 위 test-home3 스킨. 새 요소만 정의. */
+
+/* ---------- 히어로 ---------- */
+.p1-hero {
+  min-height: 88svh;
+}
+/* 배경 블러: Traw 스킨 14px → 4px로 완화 (코트·호텔이 읽히도록) */
+.th--p1 .th-hero__bg {
+  filter: blur(4px) saturate(1.05);
+}
+.p1-hero__body {
+  padding-top: 128px;
+  padding-bottom: 96px;
+}
+
+/* ---------- 앵커 섹션: 고정 네비 높이만큼 보정 ---------- */
+#trips,
+#faq {
+  scroll-margin-top: 72px;
+}
+
+/* ---------- 네비: 텍스트 메뉴 ---------- */
+.p1-nav {
+  align-items: center;
+  gap: 44px;
+}
+.p1-nav__link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.62);
+  transition: color 0.2s ease;
+}
+.p1-nav__link:hover {
+  color: #fff;
+}
+.p1-nav__link--active {
+  font-weight: 700;
+  color: #fff;
+}
+.th-navbar--scrolled .p1-nav__link {
+  color: #a8abb3;
+}
+.th-navbar--scrolled .p1-nav__link:hover {
+  color: var(--th-ink);
+}
+.th-navbar--scrolled .p1-nav__link--active {
+  color: var(--th-ink);
+}
+.th--p1 .th-navbar--scrolled {
+  background: #fff;
+}
+
+/* ---------- 가치 섹션: 히어로 바로 아래, 아이콘 + 제목 + 한 문장 4칸 ---------- */
+.p1-values {
+  padding: 88px 0;
+  background: #fff;
+}
+.p1-values__title {
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.22;
+  text-align: center;
+}
+.p1-values__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px 32px;
+  margin-top: 56px;
+}
+.p1-values__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.p1-values__icon {
+  display: inline-flex;
+  color: #fd4a01;
+}
+.p1-values__k {
+  margin-top: 18px;
+  font-family: "Fraunces", "Times New Roman", serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--th-muted);
+}
+.p1-values__t {
+  margin-top: 6px;
+  font-size: 1.12rem;
+  line-height: 1.3;
+}
+.p1-values__d {
+  margin-top: 10px;
+  max-width: 17rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--th-muted);
+  word-break: keep-all;
+}
+@media (max-width: 899px) {
+  .p1-values {
+    padding: 64px 0;
+  }
+  .p1-values__grid {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 40px;
+  }
+}
+@media (max-width: 479px) {
+  .p1-values__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- 행 헤더 ---------- */
+.p1-row-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+.p1-row-head__title {
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.22;
+}
+
+/* ---------- 트립 카드 3열 ---------- */
+.p1-cards {
+  display: grid;
+  gap: 20px;
+  list-style: none;
+  margin: 44px 0 0;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .p1-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+.p1-card {
+  display: block;
+  color: inherit;
+}
+.p1-card__photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--th-radius);
+  overflow: hidden;
+  background: #cfd6d9;
+  box-shadow: 0 18px 44px rgba(23, 24, 26, 0.12);
+}
+.p1-card__photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.p1-card--open:hover .p1-card__photo img {
+  transform: scale(1.04);
+}
+.p1-card__photo.is-coming img {
+  filter: saturate(0.15) brightness(0.92);
+}
+.p1-card__photo.is-coming::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(247, 246, 242, 0.28);
+}
+.p1-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.p1-badge--open {
+  background: var(--th-lime);
+  color: var(--th-ink);
+}
+.p1-badge--coming {
+  background: rgba(23, 24, 26, 0.55);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* ---------- 트립 오픈 알림 배너 (→ /foam 대기명단) ---------- */
+.p1-notify {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 28px;
+  padding: 22px 24px;
+  border-radius: var(--th-radius);
+  background: var(--th-ink);
+  color: #fff;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.p1-notify:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 44px rgba(23, 24, 26, 0.18);
+}
+.p1-notify:focus-visible {
+  outline: 2px solid var(--th-ink);
+  outline-offset: 3px;
+}
+.p1-notify__title {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.p1-notify__desc {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.68);
+}
+.p1-notify__arrow {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--th-lime);
+  color: var(--th-ink);
+  font-size: 1.15rem;
+  transition: transform 0.25s ease;
+}
+.p1-notify:hover .p1-notify__arrow {
+  transform: translateX(3px);
+}
+@media (min-width: 768px) {
+  .p1-notify {
+    margin-top: 32px;
+    padding: 28px 36px;
+  }
+  .p1-notify__title {
+    font-size: 1.2rem;
+  }
+}
+
+/* ---------- FAQ ---------- */
+.p1-faq {
+  max-width: 720px;
+  margin-inline: auto;
+}
+.p1-faq__group {
+  margin-top: 40px;
+}
+.p1-faq__group-title {
+  margin-bottom: 8px;
+  padding-inline: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--th-muted);
+}
+.p1-faq__item {
+  border-top: 1px solid var(--th-line);
+}
+.p1-faq__item:last-child {
+  border-bottom: 1px solid var(--th-line);
+}
+.p1-faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+}
+.p1-faq__item summary::-webkit-details-marker {
+  display: none;
+}
+.p1-faq__item summary svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--th-muted);
+  transition: transform 0.25s ease;
+}
+.p1-faq__item[open] summary svg {
+  transform: rotate(180deg);
+}
+.p1-faq__item summary:focus-visible {
+  outline: 2px solid var(--th-ink);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.p1-faq__item p {
+  padding: 0 4px 20px;
+  max-width: 62ch;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--th-muted);
+}
+
+/* ---------- 푸터 사업자 정보 ---------- */
+/* 오픈 알림·링크 블록을 걷어내고 사업자 정보만 남긴 푸터 */
+.th--p1 .th-footer {
+  padding-top: 40px;
+}
+.p1-biz {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  border-top: 1px solid var(--th-line);
+  font-size: 0.66rem;
+  line-height: 1.6;
+  color: var(--th-muted);
+}
+
+.p1-biz__name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--th-ink, currentColor);
+}
+
+.p1-biz__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+}
+
+.p1-biz__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 28px;
+}
+
+.p1-biz__item {
+  display: flex;
+  gap: 10px;
+}
+
+.p1-biz__item dt {
+  color: var(--th-muted);
+}
+
+.p1-biz__item dd {
+  margin: 0;
+  color: var(--th-ink, currentColor);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p1-card__photo img,
+  .p1-faq__item summary svg {
+    transition: none;
+  }
+}
