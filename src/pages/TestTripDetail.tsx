@@ -15,7 +15,20 @@ import "../styles/test-trip-detail.css";
  * - 본문: 제공 사항(solosholidays What's included) → 기본 정보 박스 → 상세 이미지 1장 → 후기
  */
 
-const DETAIL_IMG = (id: string) => `/images/detail-${id}.png`;
+/** 상단 대표 배너 — 문구가 박힌 2:1 이미지라 잘리지 않게 비율 그대로 노출 (없으면 trip.heroImage) */
+const DETAIL_HERO: Record<string, string> = {
+  hakone: "/images/detail-hakone-hero.webp",
+};
+
+/** 상세 설명 이미지 — 세로로 긴 원본을 잘라 순서대로 이어 붙임 (w·h는 레이아웃 시프트 방지용) */
+const DETAIL_IMGS: Record<string, { src: string; w: number; h: number }[]> = {
+  hakone: [
+    { src: "/images/detail-hakone-1.webp", w: 1000, h: 3789 },
+    { src: "/images/detail-hakone-2.webp", w: 1000, h: 10104 },
+    { src: "/images/detail-hakone-3.webp", w: 1000, h: 7167 },
+    { src: "/images/detail-hakone-4.webp", w: 1000, h: 13954 },
+  ],
+};
 
 const SECTIONS = [
   { id: "info", label: "기본 정보" },
@@ -140,8 +153,8 @@ export function TestTripDetail() {
     <div className="th th--v3 th--p1 td-root">
       <Nav solid />
       <div className="th-container td-page">
-        <div className="td-hero">
-          <img src={`/images/${trip.heroImage}`} alt={`${trip.destination} 트립 대표 이미지`} />
+        <div className={DETAIL_HERO[trip.id] ? "td-hero td-hero--banner" : "td-hero"}>
+          <img src={DETAIL_HERO[trip.id] ?? `/images/${trip.heroImage}`} alt={`${trip.name} 대표 이미지`} />
         </div>
 
         {/* PC: [제목 | 카드] / [본문 | 카드]  ·  모바일: 제목 → 카드 → 본문 */}
@@ -204,7 +217,7 @@ export function TestTripDetail() {
             </Section>
 
             <Section id="detail" title="상세 설명">
-              <DetailImage src={DETAIL_IMG(trip.id)} />
+              <DetailImages id={trip.id} />
             </Section>
 
             <Section id="reviews" title="후기">
@@ -353,18 +366,25 @@ function Section(props: { id: string; title: string; children: ReactNode }) {
   );
 }
 
-/** 상세 설명 이미지 1장 — 파일이 아직 없으면 세로로 긴 자리표시 */
-function DetailImage({ src }: { src: string }) {
-  const [missing, setMissing] = useState(false);
-  if (missing) {
+/** 상세 설명 이미지 — 등록 전이면 세로로 긴 자리표시 */
+function DetailImages({ id }: { id: string }) {
+  const imgs = DETAIL_IMGS[id];
+  if (!imgs?.length) {
     return (
       <div className="td-detail-ph">
         <span>상세 설명 이미지 (세로로 긴 1장)</span>
-        <code>public{src}</code>
+        <code>public/images/detail-{id}-*.webp</code>
       </div>
     );
   }
-  return <img className="td-detail-img" src={src} alt="트립 상세 설명" loading="lazy" onError={() => setMissing(true)} />;
+  return (
+    <div>
+      {imgs.map((img, i) => (
+        <img key={img.src} className="td-detail-img" src={img.src} width={img.w} height={img.h}
+          alt={i === 0 ? "트립 상세 설명" : ""} loading="lazy" />
+      ))}
+    </div>
+  );
 }
 
 function Stars({ value }: { value: number }) {
