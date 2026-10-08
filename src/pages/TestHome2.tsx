@@ -91,7 +91,7 @@ function Hero() {
       <div className="relative z-10 mx-auto flex max-w-3xl flex-1 flex-col items-center justify-center px-5 pb-24 pt-32 text-center">
         <span className="lc-hero__badge">
           <i />
-          일본 하코네 1기 · 2026.10.17 – 19 · 모집 중
+          일본 하코네 1기 · 2026.11.07 – 09 · 모집 중
         </span>
         <h1 className="lc-display lc-hero__title mt-6">
           혼자 오라고 만든
@@ -376,7 +376,7 @@ function Trips() {
                 <br />
                 테니스 트립 1기
               </h3>
-              <p className="mt-2 text-sm text-white/85">2026.10.17 – 19 · 2박 3일</p>
+              <p className="mt-2 text-sm text-white/85">2026.11.07 – 09 · 2박 3일</p>
               <div className="mt-4 flex items-center justify-between">
                 <span className="text-xs text-white/70">얼리버드 149만 원 · 항공 불포함</span>
                 <span className="lc-btn lc-btn--white lc-btn--sm">자세히 보기</span>
@@ -516,7 +516,7 @@ function FinalCta() {
               코트에서 만나요
             </h2>
             <p className="mt-4 max-w-md text-white/80">
-              일본 하코네 1기 · 2026.10.17 – 19 · 6~8명. 자리가 차면 다음 기수는 2027년입니다.
+              일본 하코네 1기 · 2026.11.07 – 09 · 6~8명. 자리가 차면 다음 기수는 2027년입니다.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row md:flex-col">

@@ -384,6 +384,14 @@
   font-size: 0.75rem;
   color: #9a9a9a;
 }
+.td-reviews__empty {
+  padding: 48px 16px;
+  border-radius: 14px;
+  background: var(--td-gray);
+  color: #9a9a9a;
+  font-size: 0.9rem;
+  text-align: center;
+}
 .td-reviews {
   display: grid;
   gap: 10px;

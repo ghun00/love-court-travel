@@ -265,7 +265,7 @@ function Join() {
                 <br />
                 테니스 트립 1기
               </h3>
-              <p className="th3-poster__date">2026.10.17 – 19 · 2박 3일</p>
+              <p className="th3-poster__date">2026.11.07 – 09 · 2박 3일</p>
             </div>
           </Link>
         </div>

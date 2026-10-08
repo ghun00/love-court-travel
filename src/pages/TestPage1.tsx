@@ -44,7 +44,7 @@ const TRIP_CARDS: TripCard[] = [
     status: "open",
     place: "일본 하코네",
     name: "하코네 테니스 트립 1기",
-    dates: "2026.10.17 – 19 (2박 3일)",
+    dates: "2026.11.07 – 09 (2박 3일)",
     price: "얼리버드 149만 원",
     priceNote: "정가 169만 원, 항공권 별도",
     img: "/images/poster-hakone-1.png",

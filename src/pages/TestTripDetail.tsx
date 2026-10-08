@@ -24,9 +24,9 @@ const DETAIL_HERO: Record<string, string> = {
 const DETAIL_IMGS: Record<string, { src: string; w: number; h: number }[]> = {
   hakone: [
     { src: "/images/detail-hakone-1.webp", w: 1000, h: 3789 },
-    { src: "/images/detail-hakone-2.webp", w: 1000, h: 10104 },
+    { src: "/images/detail-hakone-2.webp", w: 1000, h: 10112 },
     { src: "/images/detail-hakone-3.webp", w: 1000, h: 7167 },
-    { src: "/images/detail-hakone-4.webp", w: 1000, h: 13954 },
+    { src: "/images/detail-hakone-4.webp", w: 1000, h: 12868 },
   ],
 };
 
@@ -115,12 +115,15 @@ const OFFERS: { icon: ReactNode; t: ReactNode; sub?: string }[] = [
   },
 ];
 
-const REVIEWS = [
-  { name: "지윤", meta: "30대 · 혼자 참여", rating: 5, text: "혼자 가는 게 제일 걱정이었는데 첫날 랠리 한 번에 다 풀렸어요. 코트 뷰는 사진보다 실물이 훨씬 좋아요." },
-  { name: "현우", meta: "30대 · 친구와 참여", rating: 5, text: "코트 예약, 이동, 식사를 하나도 신경 안 썼어요. 테니스만 치다 왔는데 스냅 사진까지 남았습니다." },
-  { name: "소영", meta: "20대 · 혼자 참여", rating: 5, text: "실력 비슷한 사람들끼리 묶어 줘서 게임이 정말 재밌었어요. 다음 기수도 바로 신청하려고요." },
-  { name: "민재", meta: "40대 · 혼자 참여", rating: 4, text: "온천하고 테니스 조합이 최고였어요. 일정이 조금만 더 길었으면 좋겠다는 게 유일한 아쉬움." },
-];
+type Review = { name: string; meta: string; rating: number; text: string };
+
+/** 실제 후기 — 1기 진행 후 채움. 비어 있으면 "아직 후기가 없어요" 안내 */
+const REVIEWS: Review[] = [];
+
+/** 신청은 그로블 상품 페이지에서 결제 — 새 창으로 */
+const APPLY_URL = "https://www.groble.im/products/nSdBPJ";
+
+const avg = REVIEWS.length ? REVIEWS.reduce((sum, r) => sum + r.rating, 0) / REVIEWS.length : 0;
 
 const won = (n: number) => `${n.toLocaleString("ko-KR")}원`;
 
@@ -168,7 +171,7 @@ export function TestTripDetail() {
             </p>
           </header>
 
-          <BookingCard tripId={trip.id} rooms={rooms} deposit={trip.depositAmount ?? 0} />
+          <BookingCard rooms={rooms} deposit={trip.depositAmount ?? 0} />
 
           <main className="td-main">
             {/* 제공 사항 — 탭 위에 고정 노출 (solosholidays What's included) */}
@@ -222,21 +225,25 @@ export function TestTripDetail() {
 
             <Section id="reviews" title="후기">
               <div className="td-reviews__head">
-                <Stars value={4.8} />
-                <strong>4.8</strong>
-                <span>예시 후기 · 1기 이후 실제 후기로 교체</span>
+                <Stars value={avg} />
+                <strong>{REVIEWS.length ? avg.toFixed(1) : "0.0"}</strong>
+                <span>후기 {REVIEWS.length}개</span>
               </div>
-              <ul className="td-reviews">
-                {REVIEWS.map((r) => (
-                  <li key={r.name} className="td-review">
-                    <Stars value={r.rating} />
-                    <p>{r.text}</p>
-                    <span className="td-review__who">
-                      <b>{r.name}</b> {r.meta}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              {REVIEWS.length ? (
+                <ul className="td-reviews">
+                  {REVIEWS.map((r) => (
+                    <li key={r.name} className="td-review">
+                      <Stars value={r.rating} />
+                      <p>{r.text}</p>
+                      <span className="td-review__who">
+                        <b>{r.name}</b> {r.meta}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="td-reviews__empty">아직 등록된 후기가 없어요.</p>
+              )}
             </Section>
           </main>
         </div>
@@ -249,7 +256,7 @@ export function TestTripDetail() {
 /* ---------------------------------------------------------------- */
 /* 예약 카드 — 클투식 옵션 버튼. 총액 대신 "지금 결제 금액(예약금)"을 전면에 */
 /* ---------------------------------------------------------------- */
-function BookingCard({ tripId, rooms, deposit }: { tripId: string; rooms: TripRoom[]; deposit: number }) {
+function BookingCard({ rooms, deposit }: { rooms: TripRoom[]; deposit: number }) {
   // 기본은 미선택 — 선택 전에는 잔금 대신 안내 문구, 신청 버튼은 선택을 먼저 요구
   const [roomId, setRoomId] = useState<TripRoom["id"] | null>(null);
   const [needRoom, setNeedRoom] = useState(false);
@@ -303,8 +310,10 @@ function BookingCard({ tripId, rooms, deposit }: { tripId: string; rooms: TripRo
         </div>
         <p className="td-book__fine">※ 최소 인원 6명이 모이지 않으면 예약금은 100% 환불됩니다.</p>
 
-        <Link
-          to={room ? `/test/trips/${tripId}/book?room=${room.id}` : "#"}
+        <a
+          href={APPLY_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="td-book__cta"
           onClick={(e) => {
             if (room) return;
@@ -313,7 +322,7 @@ function BookingCard({ tripId, rooms, deposit }: { tripId: string; rooms: TripRo
           }}
         >
           지금 신청하기
-        </Link>
+        </a>
       </div>
     </aside>
   );

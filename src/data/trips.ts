@@ -86,7 +86,7 @@ export const TRIPS: Trip[] = [
     name: "하코네 테니스 트립 1기",
     destination: "일본 하코네",
     duration: "2박 3일",
-    dates: "2026.10.17 – 19",
+    dates: "2026.11.07 – 09",
     capacity: 8,
     spotsLeft: 5,
     deposit: "30만 원",
