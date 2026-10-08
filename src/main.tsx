@@ -13,6 +13,6 @@ const app = (
   </StrictMode>
 );
 
-// 빌드 결과물은 프리렌더된 HTML이 들어 있어 hydrate, dev 서버는 빈 root라 새로 렌더
-if (root.hasChildNodes()) hydrateRoot(root, app);
+// 이 주소로 프리렌더된 HTML이면 hydrate. 폴백(다른 경로의 index.html)이나 dev 서버의 빈 root는 새로 렌더
+if (root.dataset.path === location.pathname) hydrateRoot(root, app);
 else createRoot(root).render(app);
