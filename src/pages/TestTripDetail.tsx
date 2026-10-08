@@ -1,11 +1,13 @@
 import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getTrip, isBookable, type TripRoom } from "../data/trips";
+import { getTrip, isBookable, type Trip, type TripRoom } from "../data/trips";
+import { COMPANY, GUARANTEES, SAFETY_URL } from "../data/company";
 import { Footer, Nav } from "./TestPage1";
 import "../styles/test-home.css";
 import "../styles/test-home3.css";
 import "../styles/test-page1.css";
 import "../styles/test-trip-detail.css";
+import "../styles/legal.css";
 
 /**
  * /trips/:id — 트립 상세 (test-page1 스킨)
@@ -34,6 +36,7 @@ const SECTIONS = [
   { id: "info", label: "기본 정보" },
   { id: "detail", label: "상세 설명" },
   { id: "reviews", label: "후기" },
+  { id: "terms", label: "예약 안내" },
 ] as const;
 
 /** 제공 사항 — t 안의 <b>는 강조 포인트, sub는 괄호 보조 설명 */
@@ -245,6 +248,10 @@ export function TestTripDetail() {
                 <p className="td-reviews__empty">아직 등록된 후기가 없어요.</p>
               )}
             </Section>
+
+            <Section id="terms" title="예약 안내">
+              <TripNotice trip={trip} />
+            </Section>
           </main>
         </div>
       </div>
@@ -260,6 +267,8 @@ function BookingCard({ rooms, deposit }: { rooms: TripRoom[]; deposit: number })
   // 기본은 미선택 — 선택 전에는 잔금 대신 안내 문구, 신청 버튼은 선택을 먼저 요구
   const [roomId, setRoomId] = useState<TripRoom["id"] | null>(null);
   const [needRoom, setNeedRoom] = useState(false);
+  const [agreed, setAgreed] = useState(false);
+  const [needAgree, setNeedAgree] = useState(false);
   const room = rooms.find((r) => r.id === roomId);
   const extra = room ? room.price - rooms[0].price : 0;
 
@@ -310,21 +319,96 @@ function BookingCard({ rooms, deposit }: { rooms: TripRoom[]; deposit: number })
         </div>
         <p className="td-book__fine">※ 최소 인원 6명이 모이지 않으면 예약금은 100% 환불됩니다.</p>
 
+        <label className="td-agree">
+          <input type="checkbox" checked={agreed} onChange={(e) => {
+            setAgreed(e.target.checked);
+            setNeedAgree(false);
+          }} />
+          <span>
+            (필수) <Link to="/legal/travel-terms" target="_blank">여행이용약관·러브코트 특약</Link>과{" "}
+            <Link to="/legal/refund" target="_blank">취소·환불 규정</Link>을 확인했으며 동의합니다.
+          </span>
+        </label>
+        {needAgree && <p className="td-opt__need">약관과 취소·환불 규정에 동의해 주세요.</p>}
+
         <a
           href={APPLY_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="td-book__cta"
           onClick={(e) => {
-            if (room) return;
+            if (room && agreed) return;
             e.preventDefault();
-            setNeedRoom(true);
+            setNeedRoom(!room);
+            setNeedAgree(!agreed);
           }}
         >
           지금 신청하기
         </a>
       </div>
     </aside>
+  );
+}
+
+/* ---------------------------------------------------------------- */
+/* 예약 안내 — 관광진흥법 시행규칙 제21조 기획여행 광고 표시사항              */
+/* ---------------------------------------------------------------- */
+function TripNotice({ trip }: { trip: Trip }) {
+  const g = GUARANTEES.planned;
+  const rows: [string, ReactNode][] = [
+    ["여행사", `${COMPANY.name} (${COMPANY.brand}) · ${COMPANY.address}`],
+    [
+      "여행업 등록",
+      <>
+        {COMPANY.tourRegNo} · 등록관청 {COMPANY.tourRegOffice}
+      </>,
+    ],
+    ["여행일정·주요 여행지", `${trip.dates} ${trip.duration} · ${trip.destination} (상세 일정은 상세 설명 참고)`],
+    ["여행경비", `${trip.totalPrice} · 1인 기준, 2인 1실`],
+    ["포함 내역", "나리타 공항 ↔ 호텔 전용 버스, 숙박 2박(조식 포함), 웰컴 디너·피날레 디너, 코트 이용, 스냅 촬영, 여행자보험, 투어 리더 동행"],
+    ["불포함 내역", `${trip.excluded.join(", ")}, 일정표에 없는 식사`],
+    ["최저 출발인원", "6명 (여행 개시 21일 전 판단, 미달 시 전액 환불)"],
+    [
+      "일정 변경",
+      "일정을 변경해야 할 때는 해당 일정 시작 전 변경 내용과 비용을 알리고 여행자의 서면(카카오톡·문자 포함) 동의를 받습니다. 긴급한 경우 사후에 설명합니다.",
+    ],
+    [
+      "여행경보",
+      <>
+        출발 전 외교부 해외안전여행에서 여행지의 최신 여행경보 단계를 확인해 주세요 ·{" "}
+        <a href={SAFETY_URL} target="_blank" rel="noopener noreferrer" className="lg-link">
+          해외안전여행 바로가기
+        </a>
+      </>,
+    ],
+    [
+      "보증보험",
+      <>
+        {g.insurer} 기획여행 보증보험 {g.amount} 가입 ·{" "}
+        <Link to="/legal/insurance" className="lg-link">
+          가입 내역
+        </Link>
+      </>,
+    ],
+  ];
+
+  return (
+    <div className="td-info td-info--wide">
+      <dl>
+        {rows.map(([k, v]) => (
+          <div key={k}>
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="td-note">
+        ※ 출발 확정(잔금 결제) 이후 취소 시 특별약관에 따른 취소 수수료가 적용되며 청약철회가 제한됩니다.{" "}
+        <Link to="/legal/refund" className="lg-link">
+          취소·환불 규정 전체 보기
+        </Link>
+      </p>
+    </div>
   );
 }
 

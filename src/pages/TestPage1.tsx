@@ -1,5 +1,6 @@
 import { useEffect, useState, type MouseEvent } from "react";
 import { Link } from "react-router-dom";
+import { COMPANY, FTC_BIZ_URL, LEGAL_DOCS } from "../data/company";
 import { FAQ_GROUPS } from "../data/faq";
 import "../styles/test-home.css";
 import "../styles/test-home3.css";
@@ -344,17 +345,19 @@ function Faq() {
 /* 5. 푸터 (+ 사업자 정보)                                             */
 /* ---------------------------------------------------------------- */
 const BIZ_ROWS: [string, string][][] = [
-  [["대표", "한지훈"], ["개인정보책임관리자", "한지훈"]],
-  [["사업자등록번호", "481-11-03110"], ["관광사업자등록번호", "제2026-000006호"], ["통신판매업신고", "2026-경기하남-1633"]],
-  [["주소", "경기도 하남시 미사대로 550, 10층 C10-0001호,1003호"]],
-  [["메일", "gks3628@gmail.com"], ["연락처", "010-2439-3628"]],
+  [["대표", COMPANY.ceo], ["개인정보보호책임자", COMPANY.privacyOfficer]],
+  [["사업자등록번호", COMPANY.bizNo], ["통신판매업신고", COMPANY.mailOrderNo]],
+  [["관광사업자등록번호", `${COMPANY.tourRegNo}${COMPANY.tourRegOffice ? ` (등록관청 ${COMPANY.tourRegOffice})` : ""}`]],
+  [["주소", COMPANY.address]],
+  [["메일", COMPANY.email], ["연락처", COMPANY.phone]],
+  [["호스팅 제공자", COMPANY.hosting]],
 ];
 
 export function Footer() {
   return (
     <footer className="th-footer">
       <div className="th-container relative p1-biz">
-        <strong className="p1-biz__name">프라이데이랩</strong>
+        <strong className="p1-biz__name">{COMPANY.name}</strong>
         <dl className="p1-biz__list">
           {BIZ_ROWS.map((row, i) => (
             <div key={i} className="p1-biz__row">
@@ -367,6 +370,16 @@ export function Footer() {
             </div>
           ))}
         </dl>
+        <nav className="p1-legal" aria-label="약관 및 정책">
+          {LEGAL_DOCS.map((d) => (
+            <Link key={d.slug} to={`/legal/${d.slug}`} className={d.slug === "privacy" ? "is-strong" : ""}>
+              {d.label}
+            </Link>
+          ))}
+          <a href={FTC_BIZ_URL} target="_blank" rel="noopener noreferrer">
+            사업자정보 확인
+          </a>
+        </nav>
         <span className="p1-biz__copy">© Love Court 2026</span>
       </div>
 

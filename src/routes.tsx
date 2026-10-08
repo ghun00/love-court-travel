@@ -2,6 +2,7 @@ import { Routes, Route, Navigate, useParams } from "react-router-dom";
 import App from "./App";
 import { TestPage1 } from "./pages/TestPage1";
 import { TestTripDetail } from "./pages/TestTripDetail";
+import { LegalPage } from "./pages/legal/LegalPage";
 import { useSeo } from "./seo/useSeo";
 
 function LegacyTripRedirect() {
@@ -16,6 +17,8 @@ export function AppRoutes() {
     <Routes>
       <Route path="/" element={<TestPage1 />} />
       <Route path="/trips/:id" element={<TestTripDetail />} />
+      <Route path="/legal/:doc" element={<LegalPage />} />
+      <Route path="/legal" element={<Navigate to="/legal/terms" replace />} />
       <Route path="/foam" element={<App />} />
       {/* 예전 시안 주소로 들어온 경우 새 주소로 */}
       <Route path="/test-page1" element={<Navigate to="/" replace />} />

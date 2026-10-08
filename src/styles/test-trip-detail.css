@@ -460,3 +460,46 @@
   font-weight: 500;
   color: #a5a5a5;
 }
+
+/* ---------- 예약 안내 (기획여행 표시사항) — 항목명이 길어 dt 폭 확장 ---------- */
+.td-info--wide dl div {
+  grid-template-columns: 112px 1fr;
+}
+@media (max-width: 520px) {
+  .td-info--wide {
+    padding: 22px 20px;
+  }
+  .td-info--wide dl div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+/* ---------- 약관 동의 ---------- */
+.td-agree {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 24px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: #555;
+  cursor: pointer;
+}
+.td-agree input {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  accent-color: #111;
+}
+.td-agree a {
+  color: #111;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.td-agree + .td-opt__need,
+.td-agree ~ .td-book__cta {
+  margin-top: 12px;
+}
