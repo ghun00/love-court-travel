@@ -1,4 +1,5 @@
 import { INSTAGRAM_URL } from "../config";
+import { COMPANY, LEGAL_DOCS } from "../data/company";
 import { FAQ_GROUPS } from "../data/faq";
 import { getTrip, isBookable, type Trip } from "../data/trips";
 
@@ -39,15 +40,10 @@ const ORGANIZATION = {
   logo: abs("/logo_lovecourt_mainOrange.png"),
   description: "혼자 오는 사람들을 위한 소규모 해외 테니스 여행을 기획·운영하는 여행사",
   sameAs: [INSTAGRAM_URL],
-  email: "gks3628@gmail.com",
-  telephone: "+82-10-2439-3628",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "미사대로 550, 10층 C10-0001호,1003호",
-    addressLocality: "하남시",
-    addressRegion: "경기도",
-    addressCountry: "KR",
-  },
+  legalName: COMPANY.name,
+  email: COMPANY.email,
+  telephone: `+82-${COMPANY.phone.replace(/^0/, "")}`,
+  address: { "@type": "PostalAddress", streetAddress: COMPANY.address, addressCountry: "KR" },
 };
 
 const HOME: Omit<Seo, "url" | "jsonLd"> = {
@@ -150,10 +146,25 @@ export function getSeo(pathname: string): Seo {
   const trip = m ? getTrip(m[1]) : undefined;
   if (trip && isBookable(trip)) return tripSeo(trip);
 
+  const legal = LEGAL_DOCS.find((d) => path === `/legal/${d.slug}`);
+  if (legal) {
+    return {
+      ...HOME,
+      title: `${legal.label} | ${SITE_NAME}`,
+      description: `${SITE_NAME}(${COMPANY.name})의 ${legal.label}입니다.`,
+      url: abs(path),
+      jsonLd: [],
+    };
+  }
+
   return { ...HOME, url: abs(path), noindex: true, jsonLd: [] };
 }
 
 /** 프리렌더·sitemap 대상 경로 (noindex 페이지 제외) */
 export function getIndexablePaths(trips: Trip[]): string[] {
-  return ["/", ...trips.filter(isBookable).map((t) => `/trips/${t.id}`)];
+  return [
+    "/",
+    ...trips.filter(isBookable).map((t) => `/trips/${t.id}`),
+    ...LEGAL_DOCS.map((d) => `/legal/${d.slug}`),
+  ];
 }

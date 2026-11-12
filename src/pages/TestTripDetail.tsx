@@ -1,8 +1,8 @@
-import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getTrip, isBookable, type Trip, type TripRoom } from "../data/trips";
 import { COMPANY, GUARANTEES, SAFETY_URL } from "../data/company";
-import { Footer, Nav } from "./TestPage1";
+import { FaqGroups, Footer, Nav } from "./TestPage1";
 import "../styles/test-home.css";
 import "../styles/test-home3.css";
 import "../styles/test-page1.css";
@@ -13,8 +13,9 @@ import "../styles/legal.css";
  * /trips/:id — 트립 상세 (test-page1 스킨)
  * - 클투: 상단 가로 대표 이미지 → 좌 제목·본문 / 우 sticky 예약 카드
  * - 강조 타이포(Vitro Core) 없이 산세리프 + 흰 배경 + 회색 정보 박스로 담백하게
- * - 모바일: 이미지 → 제목 → 예약 카드 → 본문 (grid-area로 배치)
- * - 본문: 제공 사항(solosholidays What's included) → 기본 정보 박스 → 상세 이미지 1장 → 후기
+ * - 모바일: 이미지 → 제목 → 본문. 예약 카드는 하단 고정 바 "신청하기" → 아래에서 올라오는 옵션 창(2단계)
+ * - 제공 사항 아래: 세로(9:16) 영상 3개 — 누르면 그 자리에서 재생
+ * - 본문: 제공 사항(solosholidays What's included) → 기본 정보 박스 → 상세 이미지 1장 → 후기 → FAQ(홈과 동일)
  */
 
 /** 상단 대표 배너 — 문구가 박힌 2:1 이미지라 잘리지 않게 비율 그대로 노출 (없으면 trip.heroImage) */
@@ -32,10 +33,26 @@ const DETAIL_IMGS: Record<string, { src: string; w: number; h: number }[]> = {
   ],
 };
 
+/**
+ * 제공 사항 아래 세로 영상(9:16).
+ * - poster: 재생 전 표지 이미지 / src: 영상 파일(mp4) / caption: 카드 하단 한 줄
+ * - src가 없으면 표지만 보이고 재생 버튼은 나오지 않음
+ * TODO(대표 제공): 아래는 자리 확인용 임시 사진 — 트립별 실제 영상·표지·문구로 교체
+ */
+type Reel = { poster: string; src?: string; caption?: string };
+const DETAIL_REELS: Record<string, Reel[]> = {
+  hakone: [
+    { poster: "/images/reel-sample-1.webp" },
+    { poster: "/images/reel-sample-2.webp" },
+    { poster: "/images/reel-sample-3.webp" },
+  ],
+};
+
 const SECTIONS = [
   { id: "info", label: "기본 정보" },
   { id: "detail", label: "상세 설명" },
   { id: "reviews", label: "후기" },
+  { id: "trip-faq", label: "FAQ" },
   { id: "terms", label: "예약 안내" },
 ] as const;
 
@@ -135,10 +152,31 @@ export function TestTripDetail() {
   const trip = getTrip(id);
   const rooms = trip?.rooms;
 
+  // 모바일: 하단 "신청하기" → 옵션 창(바텀 시트) 열림 여부
+  const [sheetOpen, setSheetOpen] = useState(false);
+
   // 목록에서 카드 클릭으로 들어오면 이전 스크롤 위치가 남으므로 맨 위에서 시작
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
+    setSheetOpen(false);
   }, [id]);
+
+  // 옵션 창이 열려 있는 동안: 뒤 화면 스크롤 잠금 · Esc로 닫기 · PC 폭으로 넓어지면 닫기
+  useEffect(() => {
+    if (!sheetOpen) return;
+    const close = () => setSheetOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
+    const wide = window.matchMedia("(min-width: 900px)");
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    wide.addEventListener("change", close);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+      wide.removeEventListener("change", close);
+    };
+  }, [sheetOpen]);
 
   if (!trip || !isBookable(trip) || !rooms?.length) {
     return (
@@ -174,7 +212,12 @@ export function TestTripDetail() {
             </p>
           </header>
 
-          <BookingCard rooms={rooms} deposit={trip.depositAmount ?? 0} />
+          <BookingCard
+            rooms={rooms}
+            deposit={trip.depositAmount ?? 0}
+            open={sheetOpen}
+            onClose={() => setSheetOpen(false)}
+          />
 
           <main className="td-main">
             {/* 제공 사항 — 탭 위에 고정 노출 (solosholidays What's included) */}
@@ -195,6 +238,7 @@ export function TestTripDetail() {
                 ))}
               </ul>
               <p className="td-note">※ 불포함: {trip.excluded.join(", ")}</p>
+              <Reels id={trip.id} />
             </section>
 
             <SectionTabs />
@@ -249,6 +293,12 @@ export function TestTripDetail() {
               )}
             </Section>
 
+            <Section id="trip-faq" title="자주 묻는 질문">
+              <div className="td-faq">
+                <FaqGroups />
+              </div>
+            </Section>
+
             <Section id="terms" title="예약 안내">
               <TripNotice trip={trip} />
             </Section>
@@ -256,14 +306,82 @@ export function TestTripDetail() {
         </div>
       </div>
       <Footer />
+
+      {/* 모바일 전용 — 하단 고정 신청 바 + 옵션 창 뒤 어두운 배경 (PC에서는 CSS로 숨김) */}
+      <div className={sheetOpen ? "td-dim is-open" : "td-dim"} onClick={() => setSheetOpen(false)} aria-hidden />
+      <div className="td-bar">
+        <div className="td-bar__price">
+          <p>
+            <small>예약금</small>
+            <b>{won(trip.depositAmount ?? 0)}</b>
+          </p>
+          <span>잔금은 출발 확정 후 결제합니다</span>
+        </div>
+        <button type="button" className="td-bar__btn" aria-haspopup="dialog" aria-expanded={sheetOpen}
+          onClick={() => setSheetOpen(true)}>
+          신청하기
+        </button>
+      </div>
     </div>
+  );
+}
+
+/* ---------------------------------------------------------------- */
+/* 세로 영상 — 누르면 그 자리에서 재생, 다른 영상은 멈춤                    */
+/* ---------------------------------------------------------------- */
+function Reels({ id }: { id: string }) {
+  const reels = DETAIL_REELS[id];
+  const [playing, setPlaying] = useState<number | null>(null);
+  const videos = useRef<(HTMLVideoElement | null)[]>([]);
+  if (!reels?.length) return null;
+
+  const toggle = (i: number) => {
+    const v = videos.current[i];
+    if (!v) return;
+    if (playing === i) {
+      v.pause();
+      setPlaying(null);
+      return;
+    }
+    videos.current.forEach((o, j) => j !== i && o?.pause());
+    void v.play();
+    setPlaying(i);
+  };
+
+  return (
+    <ul className="td-reels" aria-label="트립 영상">
+      {reels.map((r, i) => (
+        <li key={r.poster} className="td-reel">
+          {r.src ? (
+            <>
+              <video ref={(el) => { videos.current[i] = el; }} src={r.src} poster={r.poster}
+                playsInline loop preload="none" />
+              <button type="button" className={playing === i ? "td-reel__btn is-playing" : "td-reel__btn"}
+                aria-label={`${r.caption ?? `트립 영상 ${i + 1}`} ${playing === i ? "일시정지" : "재생"}`}
+                onClick={() => toggle(i)}>
+                <span aria-hidden />
+              </button>
+            </>
+          ) : (
+            <img src={r.poster} alt={r.caption ?? ""} loading="lazy" />
+          )}
+          {r.caption && <p className="td-reel__cap">{r.caption}</p>}
+        </li>
+      ))}
+    </ul>
   );
 }
 
 /* ---------------------------------------------------------------- */
 /* 예약 카드 — 클투식 옵션 버튼. 총액 대신 "지금 결제 금액(예약금)"을 전면에 */
 /* ---------------------------------------------------------------- */
-function BookingCard({ rooms, deposit }: { rooms: TripRoom[]; deposit: number }) {
+function BookingCard({ rooms, deposit, open, onClose }: {
+  rooms: TripRoom[];
+  deposit: number;
+  /** 모바일 옵션 창 열림 여부 — PC에서는 항상 보이므로 영향 없음 */
+  open: boolean;
+  onClose: () => void;
+}) {
   // 기본은 미선택 — 선택 전에는 잔금 대신 안내 문구, 신청 버튼은 선택을 먼저 요구
   const [roomId, setRoomId] = useState<TripRoom["id"] | null>(null);
   const [needRoom, setNeedRoom] = useState(false);
@@ -273,8 +391,13 @@ function BookingCard({ rooms, deposit }: { rooms: TripRoom[]; deposit: number })
   const extra = room ? room.price - rooms[0].price : 0;
 
   return (
-    <aside className="td-book" aria-label="예약">
+    <aside className={open ? "td-book is-open" : "td-book"} aria-label="예약">
       <div className="td-book__card">
+        <button type="button" className="td-book__close" aria-label="옵션 선택 닫기" onClick={onClose}>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden>
+            <path d="M5 5l10 10M15 5L5 15" />
+          </svg>
+        </button>
         <h2 className="td-book__h">옵션 선택</h2>
         <p className="td-book__warn">※ 객실 옵션은 잔금 결제 전까지 변경할 수 있어요.</p>
 
@@ -420,12 +543,14 @@ function SectionTabs() {
 
   useEffect(() => {
     const els = SECTIONS.map((s) => document.getElementById(s.id)).filter(Boolean) as HTMLElement[];
+    // 콜백에는 "바뀐" 섹션만 들어오므로, 현재 걸쳐 있는 섹션을 따로 기억해 두고
+    // 그중 가장 위(먼저 나오는) 섹션을 활성으로 — 짧은 섹션(후기)을 지나도 탭이 따라오게
+    const visible = new Set<string>();
     const io = new IntersectionObserver(
       (entries) => {
-        const hit = entries.filter((e) => e.isIntersecting).sort(
-          (a, b) => a.boundingClientRect.top - b.boundingClientRect.top,
-        )[0];
-        if (hit) setActive(hit.target.id);
+        entries.forEach((e) => (e.isIntersecting ? visible.add(e.target.id) : visible.delete(e.target.id)));
+        const hit = SECTIONS.find((s) => visible.has(s.id));
+        if (hit) setActive(hit.id);
       },
       { rootMargin: "-140px 0px -55% 0px" },
     );

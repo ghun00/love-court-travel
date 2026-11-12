@@ -43,7 +43,7 @@ type TripCard = {
 const TRIP_CARDS: TripCard[] = [
   {
     id: "hakone",
-    status: "open",
+    status: "coming",
     place: "일본 하코네",
     name: "하코네 테니스 트립 1기",
     dates: "2026.11.07 – 09 (2박 3일)",
@@ -320,24 +320,33 @@ function Faq() {
     <section id="faq" className="th-container py-20 md:py-28">
       <div className="p1-faq">
         <h2 className="th-serif p1-row-head__title">자주 묻는 질문</h2>
-        {FAQ_GROUPS.map((g) => (
-          <div className="p1-faq__group" key={g.title}>
-            <h3 className="p1-faq__group-title">{g.title}</h3>
-            {g.items.map((it) => (
-              <details className="p1-faq__item" key={it.q}>
-                <summary>
-                  <span>Q. {it.q}</span>
-                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
-                    <path d="M4 8l6 6 6-6" />
-                  </svg>
-                </summary>
-                <p>{it.a}</p>
-              </details>
-            ))}
-          </div>
-        ))}
+        <FaqGroups />
       </div>
     </section>
+  );
+}
+
+/** FAQ 묶음 목록 — 홈과 트립 상세(후기 아래)가 함께 사용 */
+export function FaqGroups() {
+  return (
+    <>
+      {FAQ_GROUPS.map((g) => (
+        <div className="p1-faq__group" key={g.title}>
+          <h3 className="p1-faq__group-title">{g.title}</h3>
+          {g.items.map((it) => (
+            <details className="p1-faq__item" key={it.q}>
+              <summary>
+                <span>Q. {it.q}</span>
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+                  <path d="M4 8l6 6 6-6" />
+                </svg>
+              </summary>
+              <p>{it.a}</p>
+            </details>
+          ))}
+        </div>
+      ))}
+    </>
   );
 }
 

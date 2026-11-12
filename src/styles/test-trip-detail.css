@@ -503,3 +503,229 @@
 .td-agree ~ .td-book__cta {
   margin-top: 12px;
 }
+
+/* ---------- FAQ (홈 FAQ 재사용) ---------- */
+.td-faq .p1-faq__group:first-child {
+  margin-top: 0;
+}
+
+/* ---------- 세로 영상 (제공 사항 아래, 9:16 × 3) ---------- */
+.td-reels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 28px;
+}
+.td-reel {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 9 / 16;
+  border-radius: 12px;
+  background: var(--td-gray);
+}
+.td-reel img,
+.td-reel video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.td-reel__btn {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+/* 재생 버튼 — 재생 중에는 숨기고, 다시 누르면 일시정지 */
+.td-reel__btn span {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  transition: opacity 0.2s ease;
+}
+.td-reel__btn span::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  transform: translate(-50%, -50%);
+  border-left: 14px solid #fff;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+}
+.td-reel__btn.is-playing span {
+  opacity: 0;
+}
+.td-reel__btn:focus-visible {
+  outline: 2px solid var(--td-accent);
+  outline-offset: -2px;
+}
+.td-reel__cap {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 40px 12px 12px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.55));
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.35;
+  pointer-events: none;
+}
+/* 모바일: 옆으로 넘겨 보기 (오른쪽 끝은 화면 밖으로 흘려 다음 카드가 살짝 보이게) */
+@media (max-width: 640px) {
+  .td-reels {
+    grid-template-columns: repeat(3, 58%);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .td-reels::-webkit-scrollbar {
+    display: none;
+  }
+  .td-reel {
+    scroll-snap-align: start;
+  }
+}
+
+/* ---------- 모바일 신청 흐름: 하단 고정 바 → 옵션 창(바텀 시트) ---------- */
+.td-bar,
+.td-dim,
+.td-book__close {
+  display: none;
+}
+@media (max-width: 899px) {
+  /* 예약 카드는 본문 흐름에서 빠지고 화면 아래 시트가 됨 */
+  .td-layout {
+    grid-template-areas: "head" "main";
+  }
+  .td-root {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .td-bar {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 45;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+    background: #fff;
+    border-top: 1px solid #ececec;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.06);
+  }
+  .td-bar__price {
+    min-width: 0;
+    line-height: 1.35;
+  }
+  .td-bar__price p {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .td-bar__price small {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #666;
+  }
+  .td-bar__price b {
+    font-size: 1.25rem;
+    font-weight: 800;
+  }
+  .td-bar__price span {
+    display: block;
+    font-size: 0.75rem;
+    color: #999;
+  }
+  .td-bar__btn {
+    flex: none;
+    width: 44%;
+    max-width: 200px;
+    height: 52px;
+    border-radius: 6px;
+    background: #111;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .td-dim {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: block;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .td-dim.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* 닫혀 있을 때는 화면 밖 + visibility:hidden — 키보드 포커스가 들어가지 않게 */
+  .td-book {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 55;
+    max-height: 88dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s 0.3s;
+  }
+  .td-book.is-open {
+    transform: none;
+    visibility: visible;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .td-book__card {
+    position: relative;
+    border: 0;
+    border-radius: 22px 22px 0 0;
+    padding: 34px 20px calc(24px + env(safe-area-inset-bottom));
+  }
+  /* 손잡이 */
+  .td-book__card::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    width: 44px;
+    height: 4px;
+    border-radius: 2px;
+    background: #d9d9d9;
+    transform: translateX(-50%);
+  }
+  .td-book__close {
+    position: absolute;
+    top: 22px;
+    right: 12px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    color: #777;
+    cursor: pointer;
+  }
+  .td-book__close svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) {
+  .td-book,
+  .td-book.is-open,
+  .td-dim {
+    transition: none;
+  }
+}
