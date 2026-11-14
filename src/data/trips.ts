@@ -224,7 +224,6 @@ export const TRIPS: Trip[] = [
     excluded: ["왕복 항공권", "여행자 보험", "개인 경비(스파 등)"],
     refundPolicy: [],
     rooms: [{ id: "twin", label: "2인 1실", price: 890_000, listPrice: 990_000 }],
-    // TODO(대표 확정): 예약금은 하코네 기준(30만 원)으로 임시 설정 — 확정 금액으로 교체
     depositAmount: 300_000,
     priceBadge: "1기 한정 할인",
     detail: {
