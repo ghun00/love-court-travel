@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="382 118 764 783" width="764" height="783" role="img" aria-labelledby="title">
+  <title id="title">러브코트 테니스공과 비행기 심볼</title>
+  <defs><clipPath id="ball-edge"><ellipse cx="764" cy="509" rx="376.5" ry="385.5"/></clipPath></defs>
+  <g id="tennis-ball" clip-path="url(#ball-edge)">
+    <ellipse cx="764" cy="509" rx="376.5" ry="385.5" fill="#FF5A0A"/>
+    <g fill="#fff">
+      <path d="M391 566 C402 481 495 425 610 409 C777 386 940 368 1038 247 L1051 264 C976 395 800 422 628 449 C505 469 432 515 402 612 Z"/>
+      <path d="M544 820 C633 678 790 571 950 578 C1014 579 1069 604 1112 651 L1099 680 C1048 637 997 617 935 620 C798 621 662 714 582 845 Z"/>
+    </g>
+  </g>
+  <path id="airplane" fill="#FF5A0A" stroke="#fff" stroke-width="8" stroke-linejoin="round" d="M608 396 L630 386 Q632 385 635 387 L679 404 L748 376 L678 315 Q674 312 680 310 L698 304 Q702 302 706 305 L817 350 L852 336 C874 327 903 328 914 337 C927 349 913 363 894 374 Q870 389 835 398 L787 499 Q786 502 783 503 L758 512 Q755 513 756 508 L767 423 L683 442 L656 475 L627 485 Q624 486 626 480 L646 431 Z"/>
+</svg>
