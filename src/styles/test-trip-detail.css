@@ -32,6 +32,109 @@
   display: block;
 }
 
+/* ---------- 대표 영역 (코드) — 배경 사진 교차 + HTML 타이틀 ---------- */
+.td-cover {
+  --cover-green: #30c795;
+  --cover-dark: #101b19;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 16px;
+  aspect-ratio: 16 / 9;
+  background: var(--cover-dark);
+}
+/* 사진은 겹쳐 두고 활성 장만 보이게 — 바뀔 때 천천히 줌아웃되며 교차 */
+.td-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 1.2s ease, transform 6.2s linear;
+}
+.td-cover img.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+/* 아래로 갈수록 어둡게 — 타이틀 가독성 */
+.td-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 27, 25, 0) 30%,
+    rgba(16, 27, 25, 0.72) 62%,
+    var(--cover-dark) 100%
+  );
+}
+.td-cover__text {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+  padding: 0 24px clamp(28px, 5vw, 56px);
+  text-align: center;
+  word-break: keep-all;
+}
+.td-cover__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(0.88rem, 1.4vw, 1.1rem);
+}
+.td-cover__eyebrow svg {
+  width: 1.2em;
+  height: 1.2em;
+  fill: rgba(255, 255, 255, 0.88);
+}
+.td-cover__title {
+  margin-top: 12px;
+  font-family: "Vitro Core", "Pretendard", sans-serif;
+  font-size: clamp(2.3rem, 5.2vw, 4.2rem);
+  font-weight: 400;
+  line-height: 1.12;
+  color: var(--cover-green);
+}
+/* PC·태블릿: 한 줄 (줄 사이 공백) */
+.td-cover__title span + span::before {
+  content: " ";
+}
+.td-cover__sub {
+  margin-top: 14px;
+  font-size: clamp(1rem, 1.9vw, 1.45rem);
+  font-weight: 500;
+  color: var(--cover-green);
+}
+@media (min-width: 900px) {
+  .td-cover {
+    aspect-ratio: 21 / 9;
+  }
+}
+/* 모바일: 화면 폭 가득(좌우 여백·둥근 모서리 없음) + 세로형 4:5, 네비 바로 아래에 붙임 */
+@media (max-width: 640px) {
+  .td-cover {
+    margin: -37px -20px 0; /* td-page 상단 여백(96) - 네비(59), th-container 좌우 20 */
+    border-radius: 0;
+    aspect-ratio: 4 / 5;
+  }
+  .td-cover__title span {
+    display: block;
+  }
+  .td-cover__title span + span::before {
+    content: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .td-cover img {
+    transition: none;
+    transform: none;
+  }
+}
+
 /* ---------- 레이아웃 ---------- */
 .td-layout {
   display: grid;
@@ -41,6 +144,10 @@
 }
 .td-head {
   grid-area: head;
+}
+/* 코드 대표 영역(cover)일 때 — 제목 줄이 없으므로 head 영역 제거 */
+.td-layout--cover {
+  grid-template-areas: "aside" "main";
 }
 .td-book {
   grid-area: aside;
@@ -64,6 +171,10 @@
     row-gap: 8px;
     margin-top: 48px;
     align-items: start;
+  }
+  .td-layout--cover {
+    grid-template-rows: auto;
+    grid-template-areas: "main aside";
   }
   .td-book {
     position: sticky;
@@ -102,6 +213,60 @@
 .td-book__h {
   font-size: 1.15rem;
   font-weight: 700;
+}
+
+/* ---------- 상품가 (정가 취소선 → 할인율 + 할인가) ---------- */
+/* 옵션 버튼 아래 회색 박스 — 옵션 선택 시 부드럽게 나타남 */
+.td-price {
+  margin-top: 16px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: var(--td-gray);
+  animation: td-price-in 0.25s ease both;
+}
+@keyframes td-price-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+.td-price__was {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.td-price__was em {
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #ffe6da;
+  color: var(--td-accent);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 700;
+}
+.td-price__was s {
+  color: #a8a8a8;
+  font-size: 0.92rem;
+}
+.td-price__now {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 8px;
+}
+.td-price__now i {
+  color: var(--td-accent);
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 800;
+}
+.td-price__now strong {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.td-price__note {
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: #999;
 }
 .td-book__warn {
   margin-top: 4px;
@@ -218,6 +383,12 @@
 }
 .td-book__cta:hover {
   background: #000;
+}
+/* 결제 링크가 아직 없는 트립 — 신청 오픈 예정 */
+.td-book__cta:disabled {
+  width: 100%;
+  background: #c9c9c9;
+  cursor: not-allowed;
 }
 
 /* ---------- 섹션 탭 (sticky 앵커) ---------- */
@@ -349,25 +520,6 @@
   width: 100%;
   height: auto;
 }
-.td-detail-ph {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  aspect-ratio: 1 / 2.4;
-  max-height: 1400px;
-  width: 100%;
-  border-radius: 14px;
-  background: var(--td-gray);
-  color: #9a9a9a;
-  font-size: 0.85rem;
-  text-align: center;
-}
-.td-detail-ph code {
-  font-size: 0.72rem;
-}
-
 /* ---------- 후기 ---------- */
 .td-reviews__head {
   display: flex;
@@ -510,13 +662,65 @@
 }
 
 /* ---------- 세로 영상 (제공 사항 아래, 9:16 × 3) ---------- */
-.td-reels {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+/* ---------- Highlight: 제목 아래 세로 영상 캐러셀 ---------- */
+.td-hl {
   margin-top: 28px;
 }
+.td-hl__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.td-hl__title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--td-accent);
+}
+.td-hl__nav {
+  display: flex;
+  gap: 6px;
+}
+.td-hl__nav button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e2e2e2;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.td-hl__nav button:hover {
+  border-color: #111;
+}
+.td-hl__nav svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: #111;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* 한 줄 가로 스크롤 — PC는 3.4장, 모바일은 2.3장이 보여 옆으로 넘길 수 있다는 게 드러나게 */
+.td-reels {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 36px) / 3.4);
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.td-reels::-webkit-scrollbar {
+  display: none;
+}
 .td-reel {
+  scroll-snap-align: start;
   position: relative;
   overflow: hidden;
   aspect-ratio: 9 / 16;
@@ -546,7 +750,7 @@
   border: 1.5px solid #fff;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.35);
-  transition: opacity 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 .td-reel__btn span::before {
   content: "";
@@ -558,37 +762,142 @@
   border-top: 9px solid transparent;
   border-bottom: 9px solid transparent;
 }
-.td-reel__btn.is-playing span {
-  opacity: 0;
+.td-reel__btn:hover span {
+  transform: scale(1.08);
+  background: rgba(0, 0, 0, 0.5);
 }
 .td-reel__btn:focus-visible {
   outline: 2px solid var(--td-accent);
   outline-offset: -2px;
 }
-.td-reel__cap {
-  position: absolute;
-  inset: auto 0 0 0;
-  padding: 40px 12px 12px;
-  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.55));
-  color: #fff;
-  font-size: 0.88rem;
-  font-weight: 600;
-  line-height: 1.35;
-  pointer-events: none;
-}
-/* 모바일: 옆으로 넘겨 보기 (오른쪽 끝은 화면 밖으로 흘려 다음 카드가 살짝 보이게) */
+/* 모바일: 2.3장 + 오른쪽 끝은 화면 밖으로 흘려 다음 카드가 살짝 보이게, 화살표는 숨김 */
 @media (max-width: 640px) {
   .td-reels {
-    grid-template-columns: repeat(3, 58%);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
+    grid-auto-columns: 42%;
   }
-  .td-reels::-webkit-scrollbar {
+  .td-hl__nav {
     display: none;
   }
-  .td-reel {
-    scroll-snap-align: start;
+}
+
+/* ---------- 하이라이트 크게 보기 (팝업) ---------- */
+.td-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.88);
+  animation: td-viewer-fade 0.28s ease both;
+}
+.td-viewer__stage {
+  animation: td-viewer-grow 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.td-viewer.is-closing {
+  animation: td-viewer-fade-out 0.22s ease both;
+}
+.td-viewer.is-closing .td-viewer__stage {
+  animation: td-viewer-shrink 0.22s ease-in both;
+}
+/* 영상 비율(--ar = 가로/세로)대로 — 화면 높이 기준으로 최대한 크게, 폭이 모자라면 폭 기준 */
+.td-viewer__stage {
+  --ar: 0.5625;
+  height: min(88vh, calc(min(92vw, 560px) / var(--ar)));
+  height: min(88dvh, calc(min(92vw, 560px) / var(--ar)));
+  aspect-ratio: var(--ar);
+  overflow: hidden;
+  border-radius: 14px;
+  background: #000;
+}
+.td-viewer video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.td-viewer__close,
+.td-viewer__arrow {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.td-viewer__close:hover,
+.td-viewer__arrow:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+.td-viewer__close svg,
+.td-viewer__arrow svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.td-viewer__close {
+  top: 20px;
+  right: 20px;
+}
+.td-viewer__arrow {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.td-viewer__arrow--prev {
+  left: max(20px, calc(50% - 360px));
+}
+.td-viewer__arrow--next {
+  right: max(20px, calc(50% - 360px));
+}
+.td-viewer__count {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+}
+/* 모바일: 영상을 화면 가득, 화살표 대신 좌우 스와이프 */
+@media (max-width: 640px) {
+  .td-viewer__stage {
+    height: min(84dvh, calc(100vw / var(--ar)));
+    border-radius: 10px;
+  }
+  .td-viewer__arrow {
+    display: none;
+  }
+  .td-viewer__close {
+    top: 14px;
+    right: 14px;
+  }
+}
+@keyframes td-viewer-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes td-viewer-grow {
+  from { opacity: 0; transform: scale(0.35); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes td-viewer-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes td-viewer-shrink {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.35); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .td-viewer,
+  .td-viewer__stage {
+    animation-duration: 0.01s !important;
   }
 }
 
