@@ -27,6 +27,13 @@ const TRIP_SEO: Record<string, { title: string; image: string; startDate?: strin
     startDate: "2026-11-07",
     endDate: "2026-11-09",
   },
+  danang: {
+    title: "다낭 테니스 여행 2박 3일 (1.23–25) | 러브코트",
+    // TODO: 공유용 1200×630 OG 이미지(/og/og-danang.jpg)를 만들면 교체
+    image: "/images/detail-danang-hero.webp",
+    startDate: "2027-01-23",
+    endDate: "2027-01-25",
+  },
 };
 
 const abs = (path: string) => `${SITE_URL}${path}`;
