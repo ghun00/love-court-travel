@@ -510,6 +510,12 @@
 .td-info dd {
   color: #333;
 }
+/* 내용 오른쪽 보조 안내 — 길면 다음 줄로 자연스럽게 이어짐 */
+.td-info__note {
+  margin-left: 4px;
+  font-size: 0.8rem;
+  color: #999;
+}
 .td-info .td-note {
   margin-top: 20px;
 }

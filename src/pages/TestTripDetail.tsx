@@ -247,7 +247,18 @@ export function TestTripDetail() {
 
             <Section id="info" title="기본 정보">
               <div className="td-info">
-                <InfoList rows={detail.info} />
+                <InfoList
+                  rows={detail.info.map(([k, v, note]) => [
+                    k,
+                    note ? (
+                      <>
+                        {v} <small className="td-info__note">{note}</small>
+                      </>
+                    ) : (
+                      v
+                    ),
+                  ])}
+                />
                 <p className="td-note">※ 모집은 인원이 차면 조기 마감될 수 있습니다.</p>
               </div>
             </Section>

@@ -54,8 +54,8 @@ export interface TripDetail {
   images: { src: string; w: number; h: number }[];
   /** 제공 사항 아이콘 그리드 */
   offers: TripOffer[];
-  /** 기본 정보 박스 [항목, 내용] */
-  info: [string, string][];
+  /** 기본 정보 박스 [항목, 내용, 보조 안내(선택 — 내용 오른쪽에 작은 회색 글씨)] */
+  info: [string, string, string?][];
   /** 예약 안내(기획여행 표시사항)의 "포함 내역" 한 줄 */
   includedSummary: string;
   /** 결제 페이지(그로블 등) — 없으면 신청 버튼이 "신청 오픈 예정"으로 잠김 */
@@ -101,12 +101,6 @@ export interface Trip {
   detail?: TripDetail;
 }
 
-/** 모든 트립 공통 참가 조건 */
-const AGE = ["참가 나이", "20대 - 30대"] as [string, string];
-const LEVEL = [
-  "참가 레벨",
-  "랠리를 지속할 수 있고 준수한 수준의 서브 및 리턴을 구사할 수 있는 실력",
-] as [string, string];
 
 export const TRIPS: Trip[] = [
   {
@@ -190,8 +184,8 @@ export const TRIPS: Trip[] = [
         ["집결 장소", "나리타 공항 터미널 2 1층 Central Gate | Info 부스 앞"],
         ["집결 시간", "오전 11시 10분까지 (오전 10시 40분 이전 도착편 권장)"],
         ["참가 인원", "최소 6명 ~ 최대 8명 선착순 모집"],
-        AGE,
-        LEVEL,
+        ["참가 나이", "20대 - 30대"],
+        ["참가 레벨", "랠리를 지속할 수 있고 준수한 수준의 서브 및 리턴을 구사할 수 있는 실력"],
         ["항공권", "불포함 (개별 구매)"],
       ],
       includedSummary:
@@ -250,7 +244,7 @@ export const TRIPS: Trip[] = [
         { icon: "bus", text: "공항 픽업·샌딩 차량" },
         { icon: "hotel", text: "5성급 퓨전 리조트 2박", sub: "조식 포함" },
         { icon: "coach", em: "현지 코치 레슨" },
-        { icon: "court", text: "테니스 코트 사용" },
+        { icon: "court", em: "테니스 10시간" },
         { icon: "pool", em: "수영장 및 사우나 무제한" },
         { icon: "drink", text: "웰컴 디너 + ", em: "음료 무제한" },
         { icon: "dinner", text: "피날레 디너 + ", em: "음료 무제한" },
@@ -264,12 +258,16 @@ export const TRIPS: Trip[] = [
         ["집결 장소", "다낭 국제공항 Star Cafe 앞"],
         ["집결 시간", "오후 2시까지 (오후 1시 15분 이전 도착편 권장)"],
         ["참가 인원", "최소 6명 ~ 최대 8명 선착순 모집"],
-        AGE,
-        LEVEL,
+        ["참가 나이", "무관"],
+        [
+          "참가 레벨",
+          "랠리를 이어 갈 수 있고, 가벼운 친선 경기를 진행할 수 있는 정도의 실력",
+          "※ 비슷한 실력끼리 즐길 수 있도록 실력에 따라 레슨 그룹과 파트너가 정해질 수 있어요.",
+        ],
         ["항공권", "불포함 (개별 구매)"],
       ],
       includedSummary:
-        "공항 픽업·샌딩 차량, 5성급 리조트 숙박 2박(조식 포함), 현지 코치 레슨, 테니스 코트 사용, 수영장·사우나 이용, 웰컴 디너·피날레 디너(음료 무제한), 스냅 촬영, 투어 리더 동행",
+        "공항 픽업·샌딩 차량, 5성급 리조트 숙박 2박(조식 포함), 현지 코치 레슨, 테니스 10시간(코트 이용 포함), 수영장·사우나 이용, 웰컴 디너·피날레 디너(음료 무제한), 스냅 촬영, 투어 리더 동행",
       applyUrl: "https://www.groble.im/products/ny9KPJ",
     },
   },
