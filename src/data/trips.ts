@@ -49,6 +49,8 @@ export interface TripDetail {
     title: string[];
     /** 타이틀 아래 일정 */
     sub: string;
+    /** 배경 영상 — 있으면 사진 교차 대신 자동 재생(음소거·반복). 모바일은 세로 크롭본 */
+    video?: { src: string; srcMobile?: string; poster: string; posterMobile?: string };
   };
   /** 세로로 긴 상세 이미지를 잘라 순서대로 (w·h는 레이아웃 시프트 방지용) */
   images: { src: string; w: number; h: number }[];
@@ -227,6 +229,12 @@ export const TRIPS: Trip[] = [
         eyebrow: "Vietnam, Danang",
         title: ["베트남, 다낭", "테니스 트립 1기"],
         sub: "2027년 1월 23일 - 25일 | 2박 3일",
+        video: {
+          src: "/videos/danang-hero.mp4",
+          srcMobile: "/videos/danang-hero-mo.mp4",
+          poster: "/videos/danang-hero-poster.webp",
+          posterMobile: "/videos/danang-hero-poster-mo.webp",
+        },
       },
       images: [
         { src: "/images/detail-danang-1.webp", w: 1000, h: 2703 },
