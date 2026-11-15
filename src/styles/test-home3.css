@@ -182,6 +182,13 @@
   display: block;
   transition: opacity 0.2s ease;
 }
+/* 모바일: 로고만 작게 — 네비 높이(59px)는 유지(상세 대표 영역 위치가 이 값 기준) */
+@media (max-width: 640px) {
+  .th-navbar__logo img {
+    height: 20px;
+    margin-block: 3px;
+  }
+}
 
 .th-navbar__login {
   display: inline-flex;

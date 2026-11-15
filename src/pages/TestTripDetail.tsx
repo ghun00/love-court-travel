@@ -331,21 +331,26 @@ const COVER_INTERVAL = 5000;
 
 function TripCover({ cover }: { cover: NonNullable<TripDetail["cover"]> }) {
   const [active, setActive] = useState(0);
+  const video = cover.video;
 
   useEffect(() => {
-    if (cover.slides.length < 2) return;
+    if (video || cover.slides.length < 2) return;
     // 움직임 줄이기 설정이면 첫 장만 고정
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const t = window.setInterval(() => setActive((i) => (i + 1) % cover.slides.length), COVER_INTERVAL);
     return () => window.clearInterval(t);
-  }, [cover.slides.length]);
+  }, [cover.slides.length, video]);
 
   return (
     <div className="td-cover">
-      {cover.slides.map((src, i) => (
-        <img key={src} src={src} alt="" className={i === active ? "is-active" : ""}
-          loading={i === 0 ? "eager" : "lazy"} />
-      ))}
+      {video ? (
+        <CoverVideo video={video} />
+      ) : (
+        cover.slides.map((src, i) => (
+          <img key={src} src={src} alt="" className={i === active ? "is-active" : ""}
+            loading={i === 0 ? "eager" : "lazy"} />
+        ))
+      )}
       <div className="td-cover__text">
         <p className="td-cover__eyebrow">
           <svg viewBox="0 0 24 24" aria-hidden>
@@ -361,6 +366,73 @@ function TripCover({ cover }: { cover: NonNullable<TripDetail["cover"]> }) {
         <p className="td-cover__sub">{cover.sub}</p>
       </div>
     </div>
+  );
+}
+
+/**
+ * 대표 배경 영상 — 음소거·반복 자동 재생
+ * - src는 마운트 후 화면 폭을 보고 지정(모바일은 세로 크롭본) → 프리렌더 HTML엔 포스터만 있어 첫 화면이 가벼움
+ * - 움직임 줄이기 설정이면 재생하지 않고 포스터만
+ * - 5초 넘는 자동 재생이라 일시정지 버튼 제공(WCAG 2.2.2)
+ */
+function CoverVideo({ video }: { video: NonNullable<NonNullable<TripDetail["cover"]>["video"]> }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [mobile, setMobile] = useState(false);
+  const [src, setSrc] = useState<string>();
+  const [playing, setPlaying] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    const pick = () => {
+      setMobile(mq.matches);
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setSrc(mq.matches && video.srcMobile ? video.srcMobile : video.src);
+      }
+    };
+    pick();
+    mq.addEventListener("change", pick);
+    return () => mq.removeEventListener("change", pick);
+  }, [video]);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !src) return;
+    el.muted = true; // React는 muted 속성을 HTML에 안 써서 iOS 자동 재생을 위해 직접 지정
+    el.play().catch(() => setPlaying(false));
+  }, [src]);
+
+  const toggle = () => {
+    const el = ref.current;
+    if (!el) return;
+    if (el.paused) el.play();
+    else el.pause();
+  };
+
+  return (
+    <>
+      <video
+        ref={ref}
+        className="td-cover__video"
+        src={src}
+        poster={mobile && video.posterMobile ? video.posterMobile : video.poster}
+        muted
+        loop
+        playsInline
+        autoPlay
+        preload="auto"
+        aria-hidden
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+      />
+      {src && (
+        <button type="button" className="td-cover__toggle" onClick={toggle}
+          aria-label={playing ? "배경 영상 일시정지" : "배경 영상 재생"}>
+          <svg viewBox="0 0 24 24" aria-hidden>
+            {playing ? <path d="M8 5h3v14H8zM13 5h3v14h-3z" /> : <path d="M8 5v14l11-7z" />}
+          </svg>
+        </button>
+      )}
+    </>
   );
 }
 
