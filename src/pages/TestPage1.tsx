@@ -42,6 +42,17 @@ type TripCard = {
 
 const TRIP_CARDS: TripCard[] = [
   {
+    id: "danang",
+    status: "open",
+    place: "베트남 다낭",
+    name: "다낭 테니스 트립 1기",
+    dates: "2027.01.23 – 25 (2박 3일)",
+    price: "1기 할인가 89만 원",
+    priceNote: "정가 99만 원, 항공권 별도",
+    img: "/images/poster-danang-1.webp",
+    to: "/trips/danang",
+  },
+  {
     id: "hakone",
     status: "coming",
     place: "일본 하코네",
@@ -59,14 +70,6 @@ const TRIP_CARDS: TripCard[] = [
     name: "발리 테니스 트립",
     dates: "일정 준비 중",
     img: "/images/poster-bali.png",
-  },
-  {
-    id: "vietnam",
-    status: "coming",
-    place: "베트남",
-    name: "베트남 테니스 트립",
-    dates: "일정 준비 중",
-    img: "/images/poster-danang.png",
   },
 ];
 
