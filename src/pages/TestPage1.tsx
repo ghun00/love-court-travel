@@ -42,6 +42,17 @@ type TripCard = {
 
 const TRIP_CARDS: TripCard[] = [
   {
+    id: "danang",
+    status: "open",
+    place: "베트남 다낭",
+    name: "다낭 테니스 트립 1기",
+    dates: "2027.01.23 – 25 (2박 3일)",
+    price: "1기 할인가 89만 원",
+    priceNote: "정가 99만 원, 항공권 별도",
+    img: "/images/poster-danang-1.webp",
+    to: "/trips/danang",
+  },
+  {
     id: "hakone",
     status: "coming",
     place: "일본 하코네",
@@ -59,14 +70,6 @@ const TRIP_CARDS: TripCard[] = [
     name: "발리 테니스 트립",
     dates: "일정 준비 중",
     img: "/images/poster-bali.png",
-  },
-  {
-    id: "vietnam",
-    status: "coming",
-    place: "베트남",
-    name: "베트남 테니스 트립",
-    dates: "일정 준비 중",
-    img: "/images/poster-danang.png",
   },
 ];
 
@@ -144,7 +147,7 @@ function Hero() {
           <br />
           해외 테니스 트립
         </h1>
-        <p className="mt-6 max-w-md text-sm text-white/85 md:max-w-xl md:text-lg">
+        <p className="mt-6 max-w-md text-base text-white/85 md:max-w-xl md:text-xl">
           해외의 좋은 코트에서 치고, 혼자 온 사람들과 친구가 되고, 그 순간을 사진으로 가져가요.
           라켓만 챙기세요. 나머지는 러브코트가 준비할게요.
         </p>
@@ -161,8 +164,8 @@ function Hero() {
 /* 2. 가치 섹션 — 히어로 바로 아래 독립 섹션, 아이콘 + 제목 + 한 문장 4칸 */
 /* ---------------------------------------------------------------- */
 const ICON_PROPS = {
-  width: 44,
-  height: 44,
+  width: 52,
+  height: 52,
   viewBox: "0 0 48 48",
   fill: "none",
   stroke: "currentColor",

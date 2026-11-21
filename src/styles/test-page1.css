@@ -12,6 +12,9 @@
   padding-top: 128px;
   padding-bottom: 96px;
 }
+.p1-hero .th-pill {
+  font-size: 0.9rem;
+}
 
 /* ---------- 앵커 섹션: 고정 네비 높이만큼 보정 ---------- */
 #trips,
@@ -25,7 +28,7 @@
   gap: 44px;
 }
 .p1-nav__link {
-  font-size: 0.95rem;
+  font-size: 1.02rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.62);
   transition: color 0.2s ease;
@@ -80,18 +83,18 @@
   margin-top: 18px;
   font-family: "Fraunces", "Times New Roman", serif;
   font-style: italic;
-  font-size: 0.85rem;
+  font-size: 1.05rem;
   color: var(--th-muted);
 }
 .p1-values__t {
   margin-top: 6px;
-  font-size: 1.12rem;
+  font-size: 1.4rem;
   line-height: 1.3;
 }
 .p1-values__d {
   margin-top: 10px;
-  max-width: 17rem;
-  font-size: 0.88rem;
+  max-width: 20rem;
+  font-size: 1.08rem;
   line-height: 1.6;
   color: var(--th-muted);
   word-break: keep-all;
@@ -177,7 +180,7 @@
   z-index: 1;
   padding: 5px 11px;
   border-radius: 999px;
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   font-weight: 600;
 }
 .p1-badge--open {
@@ -214,14 +217,14 @@
 }
 .p1-notify__title {
   display: block;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 600;
   line-height: 1.4;
 }
 .p1-notify__desc {
   display: block;
   margin-top: 4px;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: rgba(255, 255, 255, 0.68);
 }
 .p1-notify__arrow {
@@ -245,7 +248,7 @@
     padding: 28px 36px;
   }
   .p1-notify__title {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 }
 
@@ -260,7 +263,7 @@
 .p1-faq__group-title {
   margin-bottom: 8px;
   padding-inline: 4px;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: var(--th-muted);
@@ -277,7 +280,7 @@
   justify-content: space-between;
   gap: 16px;
   padding: 18px 4px;
-  font-size: 1rem;
+  font-size: 1.08rem;
   font-weight: 500;
   cursor: pointer;
   list-style: none;
@@ -303,7 +306,7 @@
 .p1-faq__item p {
   padding: 0 4px 20px;
   max-width: 62ch;
-  font-size: 0.92rem;
+  font-size: 1rem;
   line-height: 1.7;
   color: var(--th-muted);
 }
@@ -320,13 +323,13 @@
   padding-top: 20px;
   padding-bottom: 40px;
   border-top: 1px solid var(--th-line);
-  font-size: 0.66rem;
+  font-size: 0.74rem;
   line-height: 1.6;
   color: var(--th-muted);
 }
 
 .p1-biz__name {
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: var(--th-ink, currentColor);
 }
@@ -366,7 +369,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 4px 18px;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
 }
 .p1-legal a {
   color: var(--th-ink, #17181a);
