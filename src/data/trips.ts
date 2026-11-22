@@ -101,6 +101,8 @@ export interface Trip {
   priceBadge?: string;
   /** 상세 페이지 콘텐츠 — 없으면 상세는 "준비 중" */
   detail?: TripDetail;
+  /** GA4 추적용 트립 값 (예: "danang-1") — 있으면 상세 페이지 이벤트 추적이 켜짐 (src/analytics/tripTracking.ts) */
+  analyticsId?: string;
 }
 
 
@@ -222,6 +224,7 @@ export const TRIPS: Trip[] = [
     rooms: [{ id: "twin", label: "2인 1실", price: 890_000, listPrice: 990_000 }],
     depositAmount: 300_000,
     priceBadge: "1기 한정 할인",
+    analyticsId: "danang-1",
     detail: {
       hero: { src: "/images/detail-danang-hero.webp", banner: true },
       cover: {

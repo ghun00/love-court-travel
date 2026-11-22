@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { getTrip, isBookable, type OfferIcon, type Trip, type TripDetail, type TripRoom } from "../data/trips";
 import { COMPANY, GUARANTEES, SAFETY_URL } from "../data/company";
 import { FaqGroups, Footer, Nav } from "./TestPage1";
+import { trackCtaClick, useTripTracking, withUtm } from "../analytics/tripTracking";
 import "../styles/test-home.css";
 import "../styles/test-home3.css";
 import "../styles/test-page1.css";
@@ -139,6 +140,9 @@ export function TestTripDetail() {
   const trip = getTrip(id);
   const rooms = trip?.rooms;
 
+  // GA4 스크롤 깊이 · 섹션 도달 · FAQ 열기 (analyticsId가 있는 트립만)
+  useTripTracking(trip?.analyticsId);
+
   // 모바일: 하단 "신청하기" → 옵션 창(바텀 시트) 열림 여부
   const [sheetOpen, setSheetOpen] = useState(false);
 
@@ -213,6 +217,7 @@ export function TestTripDetail() {
             rooms={rooms}
             badge={trip.priceBadge}
             applyUrl={detail.applyUrl}
+            analyticsId={trip.analyticsId}
             deposit={trip.depositAmount ?? 0}
             open={sheetOpen}
             onClose={() => setSheetOpen(false)}
@@ -223,7 +228,7 @@ export function TestTripDetail() {
             <Reels key={trip.id} reels={reelsFor(trip)} />
 
             {/* 제공 사항 — 탭 위에 고정 노출 (solosholidays What's included) */}
-            <section className="td-offer-sec" aria-labelledby="offer-title">
+            <section className="td-offer-sec" aria-labelledby="offer-title" data-track-section="included">
               <h2 id="offer-title" className="td-section__title">제공 사항</h2>
               <ul className="td-offers">
                 {detail.offers.map((o, i) => (
@@ -245,7 +250,7 @@ export function TestTripDetail() {
 
             <SectionTabs />
 
-            <Section id="info" title="기본 정보">
+            <Section id="info" title="기본 정보" track="info">
               <div className="td-info">
                 <InfoList
                   rows={detail.info.map(([k, v, note]) => [
@@ -263,11 +268,11 @@ export function TestTripDetail() {
               </div>
             </Section>
 
-            <Section id="detail" title="상세 설명">
+            <Section id="detail" title="상세 설명" track="detail">
               <DetailImages images={detail.images} />
             </Section>
 
-            <Section id="reviews" title="후기">
+            <Section id="reviews" title="후기" track="reviews">
               <div className="td-reviews__head">
                 <Stars value={avg} />
                 <strong>{REVIEWS.length ? avg.toFixed(1) : "0.0"}</strong>
@@ -290,13 +295,13 @@ export function TestTripDetail() {
               )}
             </Section>
 
-            <Section id="trip-faq" title="자주 묻는 질문">
-              <div className="td-faq">
+            <Section id="trip-faq" title="자주 묻는 질문" track="faq">
+              <div className="td-faq" data-track-faq>
                 <FaqGroups />
               </div>
             </Section>
 
-            <Section id="terms" title="예약 안내">
+            <Section id="terms" title="예약 안내" track="terms">
               <TripNotice trip={trip} />
             </Section>
           </main>
@@ -464,7 +469,7 @@ function Reels({ reels }: { reels: Reel[] }) {
   const playable = reels.some((r) => r.src);
 
   return (
-    <section className="td-hl" aria-labelledby="hl-title">
+    <section className="td-hl" aria-labelledby="hl-title" data-track-section="highlight">
       <div className="td-hl__head">
         <h2 id="hl-title" className="td-hl__title">Highlight</h2>
         {reels.length > 3 && (
@@ -585,11 +590,13 @@ function ReelViewer({ reels, start, origin, onClose }: {
 /* ---------------------------------------------------------------- */
 /* 예약 카드 — 클투식 옵션 버튼. 총액 대신 "지금 결제 금액(예약금)"을 전면에 */
 /* ---------------------------------------------------------------- */
-function BookingCard({ rooms, badge, applyUrl, deposit, open, onClose }: {
+function BookingCard({ rooms, badge, applyUrl, analyticsId, deposit, open, onClose }: {
   rooms: TripRoom[];
   badge?: string;
   /** 결제 페이지 — 없으면 신청 버튼 잠금 (오픈 예정) */
   applyUrl?: string;
+  /** GA4 trip 값 — 있으면 결제 이동 시 cta_click 전송 */
+  analyticsId?: string;
   deposit: number;
   /** 모바일 옵션 창 열림 여부 — PC에서는 항상 보이므로 영향 없음 */
   open: boolean;
@@ -602,6 +609,12 @@ function BookingCard({ rooms, badge, applyUrl, deposit, open, onClose }: {
   const [needAgree, setNeedAgree] = useState(false);
   const room = rooms.find((r) => r.id === roomId);
   const extra = room ? room.price - rooms[0].price : 0;
+
+  // 방문자가 UTM을 달고 들어왔으면 결제 링크에도 붙임 — 프리렌더 HTML과 어긋나지 않게 마운트 후 반영
+  const [href, setHref] = useState(applyUrl);
+  useEffect(() => {
+    setHref(applyUrl && withUtm(applyUrl));
+  }, [applyUrl]);
 
   return (
     <aside className={open ? "td-book is-open" : "td-book"} aria-label="예약">
@@ -675,12 +688,17 @@ function BookingCard({ rooms, badge, applyUrl, deposit, open, onClose }: {
           </button>
         ) : (
         <a
-          href={applyUrl}
+          href={href}
           target="_blank"
           rel="noopener noreferrer"
           className="td-book__cta"
           onClick={(e) => {
-            if (room && agreed) return;
+            if (room && agreed) {
+              // 실제로 그로블로 넘어갈 때만 전송. PC는 우측 예약(가격) 카드, 모바일은 하단 고정 바에서 연 옵션 창
+              const pc = window.matchMedia("(min-width: 900px)").matches;
+              trackCtaClick(analyticsId, pc ? "price" : "sticky", e.currentTarget.textContent ?? "");
+              return;
+            }
             e.preventDefault();
             setNeedRoom(!room);
             setNeedAgree(!agreed);
@@ -789,9 +807,9 @@ function SectionTabs() {
   );
 }
 
-function Section(props: { id: string; title: string; children: ReactNode }) {
+function Section(props: { id: string; title: string; track?: string; children: ReactNode }) {
   return (
-    <section id={props.id} className="td-section">
+    <section id={props.id} className="td-section" data-track-section={props.track}>
       <h2 className="td-section__title">{props.title}</h2>
       {props.children}
     </section>
