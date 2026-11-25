@@ -8,6 +8,7 @@ import { useEffect } from "react";
  *
  * 이벤트
  * - cta_click     { cta_location, cta_text, trip }   그로블로 실제 이동할 때
+ * - inquiry_click { inquiry_location: faq|sticky, trip }  인스타그램 DM 문의 버튼 클릭
  * - scroll_depth  { percent: 25|50|75|100, trip }   페이지당 지점별 1회
  * - section_view  { section, trip }                 [data-track-section] 요소가 충분히 보였을 때 1회
  * - faq_open      { question(앞 40자), trip }        [data-track-faq] 안의 <details>를 펼칠 때
@@ -35,6 +36,14 @@ export function track(event: string, params: Params) {
 export function trackCtaClick(trip: string | undefined, location: string, text: string) {
   if (!trip) return;
   track("cta_click", { cta_location: location, cta_text: text.trim(), trip });
+}
+
+export type InquiryLocation = "faq" | "sticky";
+
+/** "궁금한 점 물어보기" 클릭 — 같은 창에서 인스타그램 DM으로 이동하므로 cta_click과 같이 beacon 전송 */
+export function trackInquiryClick(trip: string | undefined, location: InquiryLocation) {
+  if (!trip) return;
+  track("inquiry_click", { inquiry_location: location, trip });
 }
 
 /* ---------------------------------------------------------------- */

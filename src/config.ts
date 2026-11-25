@@ -5,3 +5,6 @@
 export const TALLY_FORM_URL = "https://tally.so/embed/7ROAKP?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&formEventsForwarding=1";
 
 export const INSTAGRAM_URL = "https://www.instagram.com/love_court.kr/";
+
+/** 인스타그램 DM 창으로 바로 열리는 문의 링크 */
+export const INSTAGRAM_DM_URL = "https://ig.me/m/love_court.kr";

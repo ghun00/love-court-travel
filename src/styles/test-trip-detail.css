@@ -701,6 +701,40 @@
   margin-top: 0;
 }
 
+/* ---------- 문의 버튼 (보조, 테두리형) ---------- */
+.td-ask {
+  margin-top: 32px;
+  text-align: center;
+}
+.td-ask__lead {
+  margin-bottom: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+.td-inquiry__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 24px;
+  border: 1px solid #c9c9c9;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  font-size: 0.92rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: border-color 0.15s ease;
+}
+.td-inquiry__btn:hover {
+  border-color: #111;
+}
+.td-inquiry__btn:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
 /* ---------- 세로 영상 (제공 사항 아래, 9:16 × 3) ---------- */
 /* ---------- Highlight: 제목 아래 세로 영상 캐러셀 ---------- */
 .td-hl {
@@ -1003,6 +1037,40 @@
     font-size: 0.95rem;
     font-weight: 700;
     cursor: pointer;
+  }
+
+  /* 문의 버튼이 있는 트립 — 1행: 예약금 안내, 2행: [문의 | 신청(더 넓게)] */
+  .td-root--inquiry {
+    padding-bottom: calc(112px + env(safe-area-inset-bottom));
+  }
+  .td-bar--inquiry {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+    gap: 8px;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  }
+  .td-bar--inquiry .td-bar__price {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .td-bar--inquiry .td-bar__price b {
+    font-size: 1.05rem;
+  }
+  .td-bar--inquiry .td-bar__btn {
+    width: 100%;
+    max-width: none;
+    height: 48px;
+  }
+  .td-bar--inquiry .td-inquiry__btn {
+    display: flex;
+    padding: 0 4px;
+    font-size: 0.82rem;
+    letter-spacing: -0.03em;
   }
 
   .td-dim {

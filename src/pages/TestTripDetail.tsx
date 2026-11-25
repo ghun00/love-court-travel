@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { getTrip, isBookable, type OfferIcon, type Trip, type TripDetail, type TripRoom } from "../data/trips";
 import { COMPANY, GUARANTEES, SAFETY_URL } from "../data/company";
 import { FaqGroups, Footer, Nav } from "./TestPage1";
-import { trackCtaClick, useTripTracking, withUtm } from "../analytics/tripTracking";
+import { trackCtaClick, trackInquiryClick, useTripTracking, withUtm, type InquiryLocation } from "../analytics/tripTracking";
 import "../styles/test-home.css";
 import "../styles/test-home3.css";
 import "../styles/test-page1.css";
@@ -187,7 +187,7 @@ export function TestTripDetail() {
   }
 
   return (
-    <div className="th th--v3 th--p1 td-root">
+    <div className={trip.inquiryUrl ? "th th--v3 th--p1 td-root td-root--inquiry" : "th th--v3 th--p1 td-root"}>
       <Nav solid />
       <div className="th-container td-page">
         {detail.cover ? (
@@ -299,6 +299,12 @@ export function TestTripDetail() {
               <div className="td-faq" data-track-faq>
                 <FaqGroups />
               </div>
+              {trip.inquiryUrl && (
+                <div className="td-ask">
+                  <p className="td-ask__lead">찾는 답이 없나요?</p>
+                  <InquiryButton url={trip.inquiryUrl} analyticsId={trip.analyticsId} location="faq" />
+                </div>
+              )}
             </Section>
 
             <Section id="terms" title="예약 안내" track="terms">
@@ -311,7 +317,7 @@ export function TestTripDetail() {
 
       {/* 모바일 전용 — 하단 고정 신청 바 + 옵션 창 뒤 어두운 배경 (PC에서는 CSS로 숨김) */}
       <div className={sheetOpen ? "td-dim is-open" : "td-dim"} onClick={() => setSheetOpen(false)} aria-hidden />
-      <div className="td-bar">
+      <div className={trip.inquiryUrl ? "td-bar td-bar--inquiry" : "td-bar"}>
         {/* 할인가는 "신청하기" → 옵션 창에서 옵션을 고르면 노출. 바에는 지금 낼 금액(예약금)만 */}
         <div className="td-bar__price">
           <p>
@@ -320,6 +326,9 @@ export function TestTripDetail() {
           </p>
           <span>잔금은 출발 확정 후 결제합니다</span>
         </div>
+        {trip.inquiryUrl && (
+          <InquiryButton url={trip.inquiryUrl} analyticsId={trip.analyticsId} location="sticky" />
+        )}
         <button type="button" className="td-bar__btn" aria-haspopup="dialog" aria-expanded={sheetOpen}
           onClick={() => setSheetOpen(true)}>
           신청하기
@@ -584,6 +593,21 @@ function ReelViewer({ reels, start, origin, onClose }: {
         </>
       )}
     </div>
+  );
+}
+
+/* ---------------------------------------------------------------- */
+/* 문의 버튼 (보조) — 인앱 브라우저에서 DM 창으로 바로 넘어가도록 같은 창에서 이동 */
+/* ---------------------------------------------------------------- */
+function InquiryButton({ url, analyticsId, location }: {
+  url: string;
+  analyticsId?: string;
+  location: InquiryLocation;
+}) {
+  return (
+    <a href={url} className="td-inquiry__btn" onClick={() => trackInquiryClick(analyticsId, location)}>
+      궁금한 점 물어보기
+    </a>
   );
 }
 

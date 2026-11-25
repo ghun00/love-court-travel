@@ -1,3 +1,5 @@
+import { INSTAGRAM_DM_URL } from "../config";
+
 export type TripStatus = "open" | "coming";
 
 export interface TripDay {
@@ -103,6 +105,8 @@ export interface Trip {
   detail?: TripDetail;
   /** GA4 추적용 트립 값 (예: "danang-1") — 있으면 상세 페이지 이벤트 추적이 켜짐 (src/analytics/tripTracking.ts) */
   analyticsId?: string;
+  /** 문의 링크 — 있으면 상세 FAQ 아래와 모바일 하단 바에 "궁금한 점 물어보기" 버튼 노출 */
+  inquiryUrl?: string;
 }
 
 
@@ -225,6 +229,7 @@ export const TRIPS: Trip[] = [
     depositAmount: 300_000,
     priceBadge: "1기 한정 할인",
     analyticsId: "danang-1",
+    inquiryUrl: INSTAGRAM_DM_URL,
     detail: {
       hero: { src: "/images/detail-danang-hero.webp", banner: true },
       cover: {
